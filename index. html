@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FF Sensitivity Tool</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, sans-serif; background: #0d0d1a; color: #fff; padding: 15px; }
+.c { max-width: 500px; margin: 0 auto; }
+h1 { text-align: center; font-size: 1.3em; background: linear-gradient(90deg, #f60, #fa0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
+.sub { text-align: center; color: #888; font-size: .78em; margin-bottom: 15px; }
+.s { font-size: .82em; font-weight: 700; color: #fa0; margin: 12px 0 6px; border-bottom: 1px solid rgba(255,140,0,.2); padding-bottom: 4px; }
+.g { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+label { font-weight: 600; color: #bbb; font-size: .72em; display: block; margin-bottom: 2px; }
+select { width: 100%; padding: 9px; border-radius: 10px; border: 1px solid rgba(255,255,255,.15); background: rgba(0,0,0,.5); color: #fff; font-size: .82em; appearance: none; }
+.btn { width: 100%; padding: 13px; background: linear-gradient(90deg, #e63900, #fa0); border: none; border-radius: 14px; color: #fff; font-size: 1em; font-weight: 700; cursor: pointer; margin: 16px 0; text-transform: uppercase; }
+.res { background: rgba(0,0,0,.5); border-radius: 16px; padding: 18px; border: 1px solid rgba(255,140,0,.3); display: none; }
+.res.show { display: block; }
+.diag { background: rgba(255,100,0,.08); border-left: 3px solid #fa0; padding: 10px; border-radius: 0 10px 10px 0; margin-bottom: 12px; font-size: .78em; color: #ddd; }
+.row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+.rl { color: #ccc; font-size: .8em; }
+.rv { font-weight: 700; color: #fa0; padding: 4px 12px; border-radius: 15px; font-size: .9em; }
+</style>
+</head>
+<body>
+<div class="c">
+    <h1>FF Sensitivity Tool</h1>
+    <p class="sub">Công cụ tính toán độ nhạy</p>
+    <div class="s">THÔNG SỐ MÁY</div>
+    <div class="g">
+        <div><label>Hãng</label><select id="brand"><option value="apple">iPhone</option><option value="samsung">Samsung</option></select></div>
+        <div><label>Tần số quét</label><select id="hz"><option value="60">60Hz</option><option value="120">120Hz</option></select></div>
+    </div>
+    <button class="btn" onclick="tinhToan()">TÍNH TOÁN</button>
+    <div class="res" id="res">
+        <div class="diag" id="diag">Kết quả sẽ hiện ở đây</div>
+        <div class="row"><span class="rl">Nhìn xung quanh</span><span class="rv" id="vCam">-</span></div>
+    </div>
+</div>
+<script>
+function tinhToan() {
+    document.getElementById('diag').innerText = "Đã tính toán xong!";
+    document.getElementById('vCam').innerText = "95%";
+    document.getElementById('res').classList.add('show');
+}
+</script>
+</body>
+</html>
