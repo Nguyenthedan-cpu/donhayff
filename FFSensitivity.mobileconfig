@@ -1,387 +1,45 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: teal; icon-glyph: magic;
-const html = `<!DOCTYPE html>
-<html>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Công Cụ Tìm Độ Nhạy Free Fire Theo Dòng Máy</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: #fff;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 40px 30px;
-            max-width: 700px;
-            width: 100%;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        h1 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #f12711, #f5af19);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .subtitle {
-            text-align: center;
-            color: #aaa;
-            margin-bottom: 35px;
-            font-size: 0.95em;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        @media (max-width: 500px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #ccc;
-            font-size: 0.9em;
-            letter-spacing: 0.5px;
-        }
-        select, input {
-            padding: 14px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(0,0,0,0.4);
-            color: #fff;
-            font-size: 1em;
-            outline: none;
-            transition: all 0.3s;
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-        }
-        select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23f5af19'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            padding-right: 35px;
-        }
-        input {
-            cursor: text;
-        }
-        select:focus, input:focus {
-            border-color: #f5af19;
-            box-shadow: 0 0 15px rgba(245,175,25,0.2);
-        }
-        .btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(90deg, #f12711, #f5af19);
-            border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 1.2em;
-            font-weight: 700;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.3s;
-            margin-bottom: 25px;
-        }
-        .btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 30px rgba(241,39,17,0.4);
-        }
-        .result-card {
-            background: rgba(0,0,0,0.5);
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid rgba(245,175,25,0.3);
-            display: none;
-        }
-        .result-card.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .result-title {
-            text-align: center;
-            font-size: 1.3em;
-            color: #f5af19;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        .sensitivity-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .sensitivity-row:last-child {
-            border-bottom: none;
-        }
-        .sens-label {
-            font-weight: 500;
-            color: #ddd;
-        }
-        .sens-value {
-            font-weight: 700;
-            font-size: 1.2em;
-            color: #f5af19;
-            background: rgba(245,175,25,0.1);
-            padding: 6px 16px;
-            border-radius: 20px;
-        }
-        .note {
-            margin-top: 20px;
-            padding: 12px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            font-size: 0.85em;
-            color: #aaa;
-            text-align: center;
-            line-height: 1.5;
-        }
-        .brand-chip {
-            display: inline-block;
-            background: rgba(255,255,255,0.08);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            margin-right: 6px;
-            margin-top: 5px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎯 TÌM ĐỘ NHẠY FREE FIRE</h1>
-        <p class="subtitle">Thuật toán phân tích phần cứng & tối ưu cảm ứng cho từng dòng máy</p>
-
-        <div class="form-grid">
-            <div class="form-group">
-                <label>📱 Hãng điện thoại</label>
-                <select id="brand">
-                    <option value="">-- Chọn hãng --</option>
-                    <option value="apple">Apple (iPhone)</option>
-                    <option value="samsung">Samsung</option>
-                    <option value="xiaomi">Xiaomi / Redmi / POCO</option>
-                    <option value="oppo">OPPO</option>
-                    <option value="vivo">Vivo</option>
-                    <option value="realme">Realme</option>
-                    <option value="oneplus">OnePlus</option>
-                    <option value="huawei">Huawei</option>
-                    <option value="asus">ASUS (ROG Phone)</option>
-                    <option value="nubia">Nubia (Red Magic)</option>
-                    <option value="other">Khác</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>📐 Kích thước màn hình (inch)</label>
-                <select id="screenSize">
-                    <option value="">-- Chọn kích thước --</option>
-                    <option value="4.7">4.7 inch (iPhone SE, Mini)</option>
-                    <option value="5.5">5.5 inch (iPhone Plus cũ)</option>
-                    <option value="6.1">6.1 inch (iPhone 11/12/13/14/15)</option>
-                    <option value="6.3">6.3 - 6.4 inch</option>
-                    <option value="6.5">6.5 - 6.6 inch</option>
-                    <option value="6.7">6.7 inch (Pro Max / Ultra)</option>
-                    <option value="6.8">6.8 inch trở lên (tablet nhỏ)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>⚡ Tần số quét màn hình (Hz)</label>
-                <select id="refreshRate">
-                    <option value="">-- Chọn tần số quét --</option>
-                    <option value="60">60Hz (Tiêu chuẩn)</option>
-                    <option value="90">90Hz</option>
-                    <option value="120">120Hz</option>
-                    <option value="144">144Hz</option>
-                    <option value="165">165Hz+ (Gaming Phone)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>🎮 Cỡ tay / Số ngón chơi</label>
-                <select id="handSize">
-                    <option value="">-- Chọn kiểu chơi --</option>
-                    <option value="2-small">2 ngón - Tay nhỏ</option>
-                    <option value="2-large">2 ngón - Tay lớn</option>
-                    <option value="3">3 ngón (Claw cơ bản)</option>
-                    <option value="4">4 ngón (Claw nâng cao)</option>
-                    <option value="5">5-6 ngón (Pro Player / Tablet)</option>
-                </select>
-            </div>
-        </div>
-
-        <button class="btn" onclick="calculateSensitivity()">🔍 PHÂN TÍCH & ĐỀ XUẤT ĐỘ NHẠY</button>
-
-        <div class="result-card" id="resultCard">
-            <div class="result-title" id="resultTitle"></div>
-            <div class="sensitivity-row">
-                <span class="sens-label">🔭 Nhìn xung quanh (Camera)</span>
-                <span class="sens-value" id="sensCamera">-</span>
-            </div>
-            <div class="sensitivity-row">
-                <span class="sens-label">🎯 Ngắm bắn (ADS)</span>
-                <span class="sens-value" id="sensADS">-</span>
-            </div>
-            <div class="sensitivity-row">
-                <span class="sens-label">🔴 Tâm ngắm (Red Dot)</span>
-                <span class="sens-value" id="sensRedDot">-</span>
-            </div>
-            <div class="sensitivity-row">
-                <span class="sens-label">🔭 Ống ngắm x2</span>
-                <span class="sens-value" id="sens2x">-</span>
-            </div>
-            <div class="sensitivity-row">
-                <span class="sens-label">🔭 Ống ngắm x4</span>
-                <span class="sens-value" id="sens4x">-</span>
-            </div>
-            <div class="sensitivity-row">
-                <span class="sens-label">📐 Con quay hồi chuyển (Gyro)</span>
-                <span class="sens-value" id="sensGyro">-</span>
-            </div>
-            <div class="note" id="noteText"></div>
-        </div>
-    </div>
-
-    <script>
-        function calculateSensitivity() {
-            const brand = document.getElementById('brand').value;
-            const screenSize = document.getElementById('screenSize').value;
-            const refreshRate = document.getElementById('refreshRate').value;
-            const handSize = document.getElementById('handSize').value;
-
-            if (!brand || !screenSize || !refreshRate || !handSize) {
-                alert('Vui lòng chọn đầy đủ tất cả thông số để tính toán chính xác!');
-                return;
-            }
-
-            const size = parseFloat(screenSize);
-            const hz = parseInt(refreshRate);
-            
-            // Hệ số nền tảng cảm ứng theo hãng
-            const brandFactors = {
-                'apple': { name: 'Apple iPhone', base: 1.0, touch: 1.0, delay: 0 },
-                'samsung': { name: 'Samsung Galaxy', base: 0.95, touch: 1.05, delay: 2 },
-                'xiaomi': { name: 'Xiaomi / Redmi / POCO', base: 0.90, touch: 1.08, delay: 3 },
-                'oppo': { name: 'OPPO', base: 0.88, touch: 1.10, delay: 4 },
-                'vivo': { name: 'Vivo', base: 0.87, touch: 1.10, delay: 4 },
-                'realme': { name: 'Realme', base: 0.89, touch: 1.09, delay: 3 },
-                'oneplus': { name: 'OnePlus', base: 0.93, touch: 1.04, delay: 2 },
-                'huawei': { name: 'Huawei', base: 0.86, touch: 1.12, delay: 5 },
-                'asus': { name: 'ASUS ROG Phone', base: 1.05, touch: 0.95, delay: 0 },
-                'nubia': { name: 'Nubia Red Magic', base: 1.08, touch: 0.92, delay: 0 },
-                'other': { name: 'Thiết bị khác', base: 0.90, touch: 1.08, delay: 3 }
-            };
-
-            const bf = brandFactors[brand];
-            
-            // Công thức tính độ nhạy Camera
-            // Camera = (60 / kích thước màn hình) * (60 / Hz) * hệ số nền tảng * hệ số ngón chơi * 100
-            let sizeFactor = 6.0 / size; // Màn hình nhỏ hơn -> cần độ nhạy thấp hơn để kiểm soát
-            let hzFactor = 60.0 / hz; // Hz cao hơn -> giảm độ nhạy vì cảm ứng mượt hơn
-            let handFactor = 1.0;
-            if (handSize.includes('2-small')) handFactor = 0.85;
-            else if (handSize.includes('2-large')) handFactor = 0.90;
-            else if (handSize.includes('3')) handFactor = 0.95;
-            else if (handSize.includes('4')) handFactor = 1.05;
-            else if (handSize.includes('5')) handFactor = 1.15;
-
-            // Công thức cốt lõi
-            let cameraSens = Math.round((sizeFactor * hzFactor * bf.base * handFactor * 95));
-            // Giới hạn trong khoảng 30-100
-            cameraSens = Math.max(30, Math.min(100, cameraSens));
-
-            // ADS = Camera * 0.75 (luôn thấp hơn để kiểm soát khi ngắm)
-            let adsSens = Math.round(cameraSens * 0.75);
-            adsSens = Math.max(20, Math.min(95, adsSens));
-
-            // Red Dot = ADS * 0.85
-            let redDotSens = Math.round(adsSens * 0.85);
-            redDotSens = Math.max(15, Math.min(90, redDotSens));
-
-            // Ống ngắm x2 = ADS * 0.65
-            let sens2x = Math.round(adsSens * 0.65);
-            sens2x = Math.max(10, Math.min(80, sens2x));
-
-            // Ống ngắm x4 = ADS * 0.45
-            let sens4x = Math.round(adsSens * 0.45);
-            sens4x = Math.max(5, Math.min(60, sens4x));
-
-            // Gyro: phụ thuộc vào tần số quét và kích thước màn hình
-            let gyroBase = Math.round((size * 15) + (hz * 0.2));
-            gyroBase = Math.max(30, Math.min(90, gyroBase));
-
-            // Điều chỉnh dựa trên độ trễ cảm ứng của hãng
-            let delayAdjust = bf.delay * 2;
-            cameraSens = Math.round(cameraSens + delayAdjust);
-            adsSens = Math.round(adsSens + delayAdjust * 0.8);
-
-            // Hiển thị kết quả
-            document.getElementById('resultTitle').innerHTML = 
-                '📱 ' + bf.name + ' | ' + screenSize + '" | ' + hz + 'Hz | ' + 
-                (handSize.includes('2') ? '2 Ngón' : handSize.includes('3') ? '3 Ngón' : handSize.includes('4') ? '4 Ngón' : '5+ Ngón');
-            
-            document.getElementById('sensCamera').textContent = cameraSens + '%';
-            document.getElementById('sensADS').textContent = adsSens + '%';
-            document.getElementById('sensRedDot').textContent = redDotSens + '%';
-            document.getElementById('sens2x').textContent = sens2x + '%';
-            document.getElementById('sens4x').textContent = sens4x + '%';
-            document.getElementById('sensGyro').textContent = gyroBase + '%';
-            
-            let note = '💡 Mẹo: ';
-            if (hz >= 120) {
-                note += 'Máy bạn có tần số quét cao, tận dụng Gyro để tối ưu phản xạ. ';
-            }
-            if (size >= 6.7) {
-                note += 'Màn hình lớn, nên chơi 4-5 ngón để thao tác nhanh hơn. ';
-            }
-            if (brand === 'apple') {
-                note += 'iPhone có cảm ứng rất nhạy, giảm thêm 5% nếu thấy trượt quá. ';
-            }
-            if (brand === 'xiaomi' || brand === 'oppo' || brand === 'vivo' || brand === 'realme') {
-                note += 'Máy Android tầm trung có độ trễ cảm ứng nhẹ, tăng Gyro bù trừ. ';
-            }
-            note += 'Vào Phòng tập kiểm tra và tinh chỉnh ±5% cho phù hợp tay.';
-            document.getElementById('noteText').textContent = note;
-
-            document.getElementById('resultCard').classList.add('show');
-            document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
-</body>
-</html>
-</html>`;
-const webView = new WebView();
-await webView.loadHTML(html);
-await webView.present();
-Script.complete();
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>FullScreen</key>
+			<true/>
+			<key>IsRemovable</key>
+			<true/>
+			<key>Label</key>
+			<string>FF Sensitivity</string>
+			<key>PayloadDisplayName</key>
+			<string>FF Sensitivity Tool</string>
+			<key>PayloadIdentifier</key>
+			<string>com.ffsensitivity.webclip</string>
+			<key>PayloadType</key>
+			<string>com.apple.webClip.managed</string>
+			<key>PayloadUUID</key>
+			<string>a1b2c3d4-e5f6-7890-abcd-ef1234567890</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>Precomposed</key>
+			<true/>
+			<key>URL</key>
+			<string>data:text/html;base64,PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9InZpIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPg0KPHRpdGxlPkZGIFNlbnNpdGl2aXR5IFRvb2w8L3RpdGxlPg0KPHN0eWxlPg0KKiB7IG1hcmdpbjogMDsgcGFkZGluZzogMDsgYm94LXNpemluZzogYm9yZGVyLWJveDsgfQ0KYm9keSB7IGZvbnQtZmFtaWx5OiAtYXBwbGUtc3lzdGVtLCBzYW5zLXNlcmlmOyBiYWNrZ3JvdW5kOiAjMGQwZDFhOyBjb2xvcjogI2ZmZjsgcGFkZGluZzogMTVweDsgfQ0KLmMgeyBtYXgtd2lkdGg6IDUwMHB4OyBtYXJnaW46IDAgYXV0bzsgfQ0KaDEgeyB0ZXh0LWFsaWduOiBjZW50ZXI7IGZvbnQtc2l6ZTogMS4zZW07IGJhY2tncm91bmQ6IGxpbmVhci1ncmFkaWVudCg5MGRlZywgI2Y2MCwgI2ZhMCk7IC13ZWJraXQtYmFja2dyb3VuZC1jbGlwOiB0ZXh0OyAtd2Via2l0LXRleHQtZmlsbC1jb2xvcjogdHJhbnNwYXJlbnQ7IG1hcmdpbi1ib3R0b206IDVweDsgfQ0KLnN1YiB7IHRleHQtYWxpZ246IGNlbnRlcjsgY29sb3I6ICM4ODg7IGZvbnQtc2l6ZTogLjc4ZW07IG1hcmdpbi1ib3R0b206IDE1cHg7IH0NCi5zIHsgZm9udC1zaXplOiAuODJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgY29sb3I6ICNmYTA7IG1hcmdpbjogMTJweCAwIDZweDsgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkIHJnYmEoMjU1LDE0MCwwLC4yKTsgcGFkZGluZy1ib3R0b206IDRweDsgfQ0KLmcgeyBkaXNwbGF5OiBncmlkOyBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IDFmciAxZnI7IGdhcDogOHB4OyB9DQpsYWJlbCB7IGZvbnQtd2VpZ2h0OiA2MDA7IGNvbG9yOiAjYmJiOyBmb250LXNpemU6IC43MmVtOyBkaXNwbGF5OiBibG9jazsgbWFyZ2luLWJvdHRvbTogMnB4OyB9DQpzZWxlY3QgeyB3aWR0aDogMTAwJTsgcGFkZGluZzogOXB4OyBib3JkZXItcmFkaXVzOiAxMHB4OyBib3JkZXI6IDFweCBzb2xpZCByZ2JhKDI1NSwyNTUsMjU1LC4xNSk7IGJhY2tncm91bmQ6IHJnYmEoMCwwLDAsLjUpOyBjb2xvcjogI2ZmZjsgZm9udC1zaXplOiAuODJlbTsgYXBwZWFyYW5jZTogbm9uZTsgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOyBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB3aWR0aD0nMTAnIGhlaWdodD0nMTAnIHZpZXdCb3g9JzAgMCAxMCAxMCclM0UlM0NwYXRoIGQ9J001IDdMMSAzaDh6JyBmaWxsPSclMjNmYTAnLyUzRSUzQy9zdmclM0UiKTsgYmFja2dyb3VuZC1yZXBlYXQ6IG5vLXJlcGVhdDsgYmFja2dyb3VuZC1wb3NpdGlvbjogcmlnaHQgMTBweCBjZW50ZXI7IHBhZGRpbmctcmlnaHQ6IDI4cHg7IH0NCnNlbGVjdDpmb2N1cyB7IG91dGxpbmU6IG5vbmU7IGJvcmRlci1jb2xvcjogI2ZhMDsgfQ0KLnByb2IgeyBkaXNwbGF5OiBmbGV4OyBmbGV4LXdyYXA6IHdyYXA7IGdhcDogNXB4OyB9DQoucCB7IGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGdhcDogNXB4OyBwYWRkaW5nOiA3cHggOXB4OyBiYWNrZ3JvdW5kOiByZ2JhKDI1NSwyNTUsMjU1LC4wMyk7IGJvcmRlcjogMXB4IHNvbGlkIHJnYmEoMjU1LDI1NSwyNTUsLjEpOyBib3JkZXItcmFkaXVzOiAxMHB4OyBmb250LXNpemU6IC43MmVtOyBjb2xvcjogI2FhYTsgY3Vyc29yOiBwb2ludGVyOyB1c2VyLXNlbGVjdDogbm9uZTsgdHJhbnNpdGlvbjogLjJzOyB9DQoucC5vbiB7IGJhY2tncm91bmQ6IHJnYmEoMjU1LDgwLDAsLjIpOyBib3JkZXItY29sb3I6ICNmNjA7IGNvbG9yOiAjZmEwOyBmb250LXdlaWdodDogNjAwOyB9DQoucm5nIHsgZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgZ2FwOiA4cHg7IG1hcmdpbi10b3A6IDRweDsgfQ0KLnJuZyBpbnB1dFt0eXBlPXJhbmdlXSB7IGZsZXg6IDE7IGFjY2VudC1jb2xvcjogI2ZhMDsgaGVpZ2h0OiA1cHg7IH0NCi5ybmcgc3BhbiB7IGNvbG9yOiAjZmEwOyBmb250LXdlaWdodDogNzAwOyBmb250LXNpemU6IC43NWVtOyBtaW4td2lkdGg6IDYwcHg7IHRleHQtYWxpZ246IHJpZ2h0OyB9DQouYnRuIHsgd2lkdGg6IDEwMCU7IHBhZGRpbmc6IDEzcHg7IGJhY2tncm91bmQ6IGxpbmVhci1ncmFkaWVudCg5MGRlZywgI2U2MzkwMCwgI2ZhMCk7IGJvcmRlcjogbm9uZTsgYm9yZGVyLXJhZGl1czogMTRweDsgY29sb3I6ICNmZmY7IGZvbnQtc2l6ZTogMWVtOyBmb250LXdlaWdodDogNzAwOyBjdXJzb3I6IHBvaW50ZXI7IG1hcmdpbjogMTZweCAwOyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBsZXR0ZXItc3BhY2luZzogMXB4OyB9DQoucmVzIHsgYmFja2dyb3VuZDogcmdiYSgwLDAsMCwuNSk7IGJvcmRlci1yYWRpdXM6IDE2cHg7IHBhZGRpbmc6IDE4cHg7IGJvcmRlcjogMXB4IHNvbGlkIHJnYmEoMjU1LDE0MCwwLC4zKTsgZGlzcGxheTogbm9uZTsgfQ0KLnJlcy5zaG93IHsgZGlzcGxheTogYmxvY2s7IH0NCi5kaWFnIHsgYmFja2dyb3VuZDogcmdiYSgyNTUsMTAwLDAsLjA4KTsgYm9yZGVyLWxlZnQ6IDNweCBzb2xpZCAjZmEwOyBwYWRkaW5nOiAxMHB4OyBib3JkZXItcmFkaXVzOiAwIDEwcHggMTBweCAwOyBtYXJnaW4tYm90dG9tOiAxMnB4OyBmb250LXNpemU6IC43OGVtOyBsaW5lLWhlaWdodDogMS41OyBjb2xvcjogI2RkZDsgfQ0KLnJvdyB7IGRpc3BsYXk6IGZsZXg7IGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsgYWxpZ24taXRlbXM6IGNlbnRlcjsgcGFkZGluZzogOHB4IDA7IGJvcmRlci1ib3R0b206IDFweCBzb2xpZCByZ2JhKDI1NSwyNTUsMjU1LC4wNik7IH0NCi5yb3c6bGFzdC1jaGlsZCB7IGJvcmRlci1ib3R0b206IG5vbmU7IH0NCi5ybCB7IGNvbG9yOiAjY2NjOyBmb250LXNpemU6IC44ZW07IH0NCi5ydiB7IGZvbnQtd2VpZ2h0OiA3MDA7IGNvbG9yOiAjZmEwOyBiYWNrZ3JvdW5kOiByZ2JhKDI1NSwxNDAsMCwuMSk7IHBhZGRpbmc6IDRweCAxMnB4OyBib3JkZXItcmFkaXVzOiAxNXB4OyBmb250LXNpemU6IC45ZW07IH0NCi5ub3RlIHsgbWFyZ2luLXRvcDogMTJweDsgcGFkZGluZzogMTBweDsgYmFja2dyb3VuZDogcmdiYSgyNTUsMjU1LDI1NSwuMDIpOyBib3JkZXItcmFkaXVzOiAxMHB4OyBmb250LXNpemU6IC43NWVtOyBjb2xvcjogIzg4ODsgdGV4dC1hbGlnbjogY2VudGVyOyBsaW5lLWhlaWdodDogMS41OyB9DQouaGwgeyBjb2xvcjogI2ZhMDsgZm9udC13ZWlnaHQ6IDYwMDsgfQ0KLm1vZGFsIHsgcG9zaXRpb246IGZpeGVkOyB0b3A6IDA7IGxlZnQ6IDA7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDEwMCU7IGJhY2tncm91bmQ6IHJnYmEoMCwwLDAsLjg1KTsgZGlzcGxheTogZmxleDsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IHotaW5kZXg6IDk5OTsgfQ0KLm1vZGFsLWJveCB7IGJhY2tncm91bmQ6ICMxYTFhMmU7IGJvcmRlcjogMXB4IHNvbGlkIHJnYmEoMjU1LDE0MCwwLC40KTsgYm9yZGVyLXJhZGl1czogMjBweDsgcGFkZGluZzogMjVweDsgd2lkdGg6IDkwJTsgbWF4LXdpZHRoOiAzODBweDsgdGV4dC1hbGlnbjogY2VudGVyOyB9DQoubW9kYWwtYm94IGgyIHsgY29sb3I6ICNmYTA7IG1hcmdpbi1ib3R0b206IDhweDsgZm9udC1zaXplOiAxLjFlbTsgfQ0KLm1vZGFsLWJveCBwIHsgY29sb3I6ICM4ODg7IGZvbnQtc2l6ZTogLjc1ZW07IG1hcmdpbi1ib3R0b206IDE4cHg7IH0NCi5tb2RhbC1ib3ggaW5wdXQgeyB3aWR0aDogMTAwJTsgcGFkZGluZzogMTJweDsgYm9yZGVyLXJhZGl1czogMTJweDsgYm9yZGVyOiAxcHggc29saWQgcmdiYSgyNTUsMjU1LDI1NSwuMik7IGJhY2tncm91bmQ6IHJnYmEoMCwwLDAsLjUpOyBjb2xvcjogI2ZmZjsgZm9udC1zaXplOiAxZW07IHRleHQtYWxpZ246IGNlbnRlcjsgb3V0bGluZTogbm9uZTsgbGV0dGVyLXNwYWNpbmc6IDJweDsgfQ0KLm1vZGFsLWJveCBpbnB1dDpmb2N1cyB7IGJvcmRlci1jb2xvcjogI2ZhMDsgfQ0KLmJ0bi1zbSB7IG1hcmdpbi10b3A6IDE0cHg7IHdpZHRoOiAxMDAlOyBwYWRkaW5nOiAxMnB4OyBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoOTBkZWcsICNlNjM5MDAsICNmYTApOyBib3JkZXI6IG5vbmU7IGJvcmRlci1yYWRpdXM6IDEycHg7IGNvbG9yOiAjZmZmOyBmb250LXdlaWdodDogNzAwOyBmb250LXNpemU6IC45ZW07IGN1cnNvcjogcG9pbnRlcjsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgfQ0KLm1vZGFsLWJveCAuZXJyIHsgY29sb3I6ICNmNDQ7IGZvbnQtc2l6ZTogLjcyZW07IG1hcmdpbi10b3A6IDhweDsgZGlzcGxheTogbm9uZTsgfQ0KLmhpZGRlbiB7IGRpc3BsYXk6IG5vbmUhaW1wb3J0YW50OyB9DQoubG9hZGluZy1vdmVybGF5IHsgcG9zaXRpb246IGZpeGVkOyB0b3A6IDA7IGxlZnQ6IDA7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDEwMCU7IGJhY2tncm91bmQ6ICMwZDBkMWE7IGRpc3BsYXk6IGZsZXg7IGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47IGp1c3RpZnktY29udGVudDogY2VudGVyOyBhbGlnbi1pdGVtczogY2VudGVyOyB6LWluZGV4OiAxMDAwOyB9DQouc3Bpbm5lciB7IHdpZHRoOiA1MHB4OyBoZWlnaHQ6IDUwcHg7IGJvcmRlcjogM3B4IHNvbGlkIHJnYmEoMjU1LDE0MCwwLC4yKTsgYm9yZGVyLXRvcC1jb2xvcjogI2ZhMDsgYm9yZGVyLXJhZGl1czogNTAlOyBhbmltYXRpb246IHNwaW4gLjhzIGxpbmVhciBpbmZpbml0ZTsgbWFyZ2luLWJvdHRvbTogMThweDsgfQ0KQGtleWZyYW1lcyBzcGluIHsgdG8geyB0cmFuc2Zvcm06IHJvdGF0ZSgzNjBkZWcpOyB9IH0NCi5sb2FkaW5nLXRleHQgeyBjb2xvcjogI2ZhMDsgZm9udC1zaXplOiAuOWVtOyBmb250LXdlaWdodDogNjAwOyBsZXR0ZXItc3BhY2luZzogMXB4OyB9DQoubG9hZGluZy1zdWIgeyBjb2xvcjogIzg4ODsgZm9udC1zaXplOiAuN2VtOyBtYXJnaW4tdG9wOiA2cHg7IH0NCjwvc3R5bGU+DQo8L2hlYWQ+DQo8Ym9keT4NCg0KPCEtLSBLRVkgTU9EQUwgLS0+DQo8ZGl2IGNsYXNzPSJtb2RhbCIgaWQ9ImtleU1vZGFsIj4NCiAgICA8ZGl2IGNsYXNzPSJtb2RhbC1ib3giPg0KICAgICAgICA8aDI+8J+TkCBI4bqiTkcgS0VZPC9oMj4NCiAgICAgICAgPHA+Tmjhuq1wIGtleSDEkeG7gyBz4butIGThu6VuZyBjw7RuZyBj4bulPC9wPg0KICAgICAgICA8aW5wdXQgdHlwZT0idGV4dCIgaWQ9ImtleUlucHV0IiBwbGFjZWhvbGRlcj0iTmjhuq1wIGtleS4uLiIgYXV0b2NvbXBsZXRlPSJvZmYiPg0KICAgICAgICA8ZGl2IGNsYXNzPSJlcnIiIGlkPSJrZXlFcnIiPkto4bqpbSBuaOG6rXAgbmjhuq1wIGtleSDEkcO6bmchPC9kaXY+DQogICAgICAgIDxidXR0b24gY2xhc3M9ImJ0bi1zbSIgb25jbGljaz0icHJvY2Vzc0tleUFjdGl2YXRpb24oKSI+TeG7jyBLSMOBPC9idXR0b24+DQogICAgPC9kaXY+DQo8L2Rpdj4NCg0KPCEtLSBMT0FESU5HIFNDUkVFTiAtLT4NCjxkaXYgY2xhc3M9ImxvYWRpbmctb3ZlcmxheSBoaWRkZW4iIGlkPSJsb2FkaW5nU2NyZWVuIj4NCiAgICA8ZGl2IGNsYXNzPSJzcGlubmVyIj48L2Rpdj4NCiAgICA8ZGl2IGNsYXNzPSJsb2FkaW5nLXRleHQiPsSQQk5HIFThuqBJIEThu7ogTEnhu4ZVLjwvZGl2Pg0KICAgIDxkaXYgY2xhc3M9ImxvYWRpbmctc3ViIj5WdWkgbDMybmcgY2jhu51kIHRyb25nIGdpw6J5IGzDoXQ8L2Rpdj4NCjwvZGl2Pg0KDQo8IS0tIE1BSU4gQVBQIC0tPg0KPGRpdiBjbGFzcz0iYyBoaWRkZW4iIGlkPSJtYWluQXBwIj4NCiAgICA8aDE+8J+PryBDSOG6qk4gRE_DgU4gVMOCTSBTw5pORyAtIE1vZCBieSBUaGVBbmhoIFRleHQ8L2gxPg0KICAgIDxwIGNsYXNzPSJzdWIiPk5o4bqtcCB0aMO0bmcgc+G7kSBtw6F5ICZhbXA7IHTDrG5oIHRy4bqhbmcgdMOibTwvcD4NCg0KICAgIDxkaXYgY2xhc3M9InMiPvCfk7EgVEjDlE5HIFPhuJAgTcOBWTwvZGl2Pg0KICAgIDxkaXYgY2xhc3M9ImciPg0KICAgICAgICA8ZGl2PjxsYWJlbD5Iw6NuZzwvbGFiZWw+PHNlbGVjdCBpZD0iYnJhbmQiPjxvcHRpb24gdmFsdWU9IiI+Q2jhu41uPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0iYXBwbGUiPmlQaG9uZTwvb3B0aW9uPjxvcHRpb24gdmFsdWU9InNhbXN1bmciPlNhbXN1bmc8L29wdGlvbj48b3B0aW9uIHZhbHVlPSJ4aWFvbWkiPlhpYW9taS9QT0NPPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0ib3BwbyI+T1BQTzwvb3B0aW9uPjxvcHRpb24gdmFsdWU9InZpdm8iPlZpdm88L29wdGlvbj48b3B0aW9uIHZhbHVlPSJyZWFsbWUiPlJlYWxtZTwvb3B0aW9uPjxvcHRpb24gdmFsdWU9Im9uZXBsdXMiPk9uZVBsdXM8L29wdGlvbj48b3B0aW9uIHZhbHVlPSJodWF3ZWkiPkh1YXdlaTwvb3B0aW9uPjxvcHRpb24gdmFsdWU9ImFzdXMiPkFTVVMgUk9HPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0ibnViaWEiPlJlZCBNYWdpYzwvb3B0aW9uPjxvcHRpb24gdmFsdWU9Im90aGVyIj5LaMOhYzwvb3B0aW9uPjwvc2VsZWN0PjwvZGl2Pg0KICAgICAgICA8ZGl2PjxsYWJlbD5Nw6BuIGjDrG5oPC9sYWJlbD48c2VsZWN0IGlkPSJzY3JlZW4iPjxvcHRpb24gdmFsdWU9IiI+Q2jhu41uPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0iNC43Ij40LjciPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0iNS41Ij41LjUiPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0iNi4xIj42LjEiPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0iNi4zIj42LjMtNi40Ijwvb3B0aW9uPjxvcHRpb24gdmFsdWU9IjYuNSI+Ni41LTYuNiI8L29wdGlvbj48b3B0aW9uIHZhbHVlPSI2LjciPjYuNyI8L29wdGlvbj48b3B0aW9uIHZhbHVlPSI2LjgiPjYuOCIrPC9vcHRpb24+PC9zZWxlY3Q+PC9kaXY+DQogICAgICAgIDxkaXY+PGxhYmVsPlThuqduIHPhu5EgcXXDqXQ8L2xhYmVsPjxzZWxlY3QgaWQ9Imh6Ij48b3B0aW9uIHZhbHVlPSIiPkNobuG7jW48L29wdGlvbj48b3B0aW9uIHZhbHVlPSI2MCI+NjBIejwvb3B0aW9uPjxvcHRpb24gdmFsdWU9IjkwIj45MEh6PC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0iMTIwIj4xMjBIejwvb3B0aW9uPjxvcHRpb24gdmFsdWU9IjE0NCI+MTQ0SHo8L29wdGlvbj48b3B0aW9uIHZhbHVlPSIxNjUiPjE2NUh6Kzwvb3B0aW9uPjwvc2VsZWN0PjwvZGl2Pg0KICAgICAgICA8ZGl2PjxsYWJlbD5Mb+G6oWkgbcOobiBow6xuaDwvbGFiZWw+PHNlbGVjdCBpZD0ic2NyZWVuVHlwZSI+PG9wdGlvbiB2YWx1ZT0iIj5DaG7hu41uPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0iemluIj5Nw6BuIHppbiAobmd1ecOqbiBi4bqjbyk8L29wdGlvbj48b3B0aW9uIHZhbHVlPSJsbyI+TcOgbiBsw7QgKMSQw6MgdGhheSk8L29wdGlvbj48L3NlbGVjdD48L2Rpdj4NCiAgICA8L2Rpdj4NCg0KICAgIDxkaXYgY2xhc3M9InMiPvCflI0gVMOITkcgVFLhuqBORyBUw4JNPC9kaXY+DQogICAgPGRpdiBjbGFzcz0icHJvYiIgaWQ9InByb2JsZW1zIj4NCiAgICAgICAgPGRpdiBjbGFzcz0icCIgZGF0YS12PSJsb2NfZGF1Ij7wn5S0IEzhu5EgxJHhuqd1PC9kaXY+DQogICAgICAgIDxkaXYgY2xhc3M9InAiIGRhdGEtdj0iZ2lhdCI+4pqhIEdp4bqtdC9ydW5nPC9kaXY+DQogICAgICAgIDxkaXYgY2xhc3M9InAiIGRhdGEtdj0ibmFuZyI+8J+Pi++4jyBO4bq3bmc8L2Rpdj4NCiAgICAgICAgPGRpdiBjbGFzcz0icCIgZGF0YS12PSJuaGUiPvCfrrYgTmjhurlIHF1w6E8L2Rpdj4NCiAgICAgICAgPGRpdiBjbGFzcz0icCIgZGF0YS12PSJsZWNoX3AiPuKHoO+4jyBM4buHY2ggcGjhuqNpPC9kaXY+DQogICAgICAgIDxkaXYgY2xhc3M9InAiIGRhdGEtdj0ibGVjaF90Ij7ih5DvuI8gTOG7h2NoIHRyw6FpPC9kaXY+DQogICAgICAgIDxkaXYgY2xhc3M9InAiIGRhdGEtdj0iZ2lhdF9sdWkiPvCflKsgR2nhuq10IGzDuWk8L2Rpdj4NCiAgICAgICAgPGRpdiBjbGFzcz0icCIgZGF0YS12PSJrb190aGVvIj7wn5GkIEtvIHRoZW8gTVQ8L2Rpdj4NCiAgICA8L2Rpdj4NCg0KICAgIDxkaXYgY2xhc3M9InMiPuKcuyBD4bqiTSBOSEjhuqBOIFRBWSBLw4lPPC9kaXY+DQogICAgPGRpdiBjbGFzcz0icm5nIj4NCiAgICAgICAgPHNwYW4gc3R5bGU9ImNvbG9yOiNhYWE7Zm9udC1zaXplOi43MmVtIj5O4bq3bmc8L3NwYW4+DQogICAgICAgIDxpbnB1dCB0eXBlPSJyYW5nZSIgaWQ9IndlaWdodCIgbWluPSIxIiBtYXg9IjUiIHZhbHVlPSIzIiBvbmlucHV0PSJkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnd2wnKS50ZXh0Q29udGVudD1bJycsJ1LhuqV0IG7hurdwZzQnLCdIMahpSBu4bq3bmcnLCdW4buvYScsJ0jGoWkgbmjhuqVuJywnUuG6pXQgbmjhurk1J11bdGhpcy52YWx1ZV0iPg0KICAgICAgICA8c3BhbiBzdHlsZT0iY29sb3I6I2FhYTtmb250LXNpemU6LjcyZW0iPk5o4bq5PC9zcGFuPg0KICAgICAgICA8c3BhbiBpZD0id2wiPlbhu69hPC9zcGFuPg0KICAgIDwvZGl2Pg0KDQogICAgPGJ1dHRvbiBjbGFzcz0iYnRuIiBvbmNsaWNrPSJwZXJmb3JtRGlhZ25vc2lzKCkiPvCflKsgQ0jhuqpOIMSQT0HDgU48L2J1dHRvbj4NCg0KICAgIDxkaXYgY2xhc3M9InJlcyIgaWQ9InJlcyI+DQogICAgICAgIDxkaXYgY2xhc3M9ImRpYWciIGlkPSJkaWFnIj48L2Rpdj4NCiAgICAgICAgPGRpdiBjbGFzcz0icm93Ij48c3BhbiBjbGFzcz0icmwiPvCflq0gTmjDrG5oIHh1bmcgcXVhbmg8L3NwYW4+PHNwYW4gY2xhc3M9InJ2IiBpZD0idkNhbSI+LTwvc3Bhbj48L2Rpdj4NCiAgICAgICAgPGRpdiBjbGFzcz0icm93Ij48c3BhbiBjbGFzcz0icmwiPvCfj68g4buQbmcgbmdo4bqpbSBpcuG7k2cgdMOibTwvc3Bhbj48c3BhbiBjbGFzcz0icnYiIGlkPSJ2QWRzIj4tPC9zcGFuPjwvZGl2Pg0KICAgICAgICA8ZGl2IGNsYXNzPSJyb3ciPjxzcGFuIGNsYXNzPSJybCI+8J+UtCDhu5BuZyBuZ2jhuqltIDJ4PC9zcGFuPjxzcGFuIGNsYXNzPSJydiIgaWQ9InYyeCI+LTwvc3Bhbj48L2Rpdj4NCiAgICAgICAgPGRpdiBjbGFzcz0icm93Ij48c3BhbiBjbGFzcz0icmwiPvCflq0g4buQbmcgbmdo4bqpbSA0eDwvc3Bhbj48c3BhbiBjbGFzcz0icnYiIGlkPSJ2NHgiPi08L3NwYW4+PC9kaXY+DQogICAgICAgIDxkaXYgY2xhc3M9InJvdyI+PHNwYW4gY2xhc3M9InJsIj7wn5atIOG7kG5nIG5naOG6qW0gc8O6bmcgbmdo4bqpbTwvc3Bhbj48c3BhbiBjbGFzcz0icnYiIGlkPSJ2RG90Ij4tPC9zcGFuPjwvZGl2Pg0KICAgICAgICA8ZGl2IGNsYXNzPSJyb3ciPjxzcGFuIGNsYXNzPSJybCI+8J+TmCBOw7p0IGNhbWVyYSB04buxIGRvPC9zcGFuPjxzcGFuIGNsYXNzPSJydiIgaWQ9InZHeXJvIj4tPC9zcGFuPjwvZGl2Pg0KICAgICAgICA8ZGl2IGNsYXNzPSJub3RlIiBpZD0ibm90ZSI+PC9kaXY+DQogICAgPC9kaXY+DQo8L2Rpdj4NCg0KPHNjcmlwdD4NCmNvbnN0IFZBTElEX0tFWSA9ICdLSkFOLTRNUEItNVM5TSc7DQpjb25zdCBCUkFORF9QUk9GSUxFUyA9IHsNCiAgICBhcHBsZTogeyBuOiAnaVBob25lJywgYmE6IDEsIHQ6IDEsIGQ6IDAsIHE6ICdD4bqjbSDhu6luZyBjYW8gY+G6pXAnIH0sDQogICAgc2Ftc3VuZzogeyBuOiAnU2Ftc3VuZycsIGJhOiAwLjk1LCB0OiAxLjA1LCBkOiAyLCBxOiAnQ+G6o20g4bupbmcgdOG7kXQnIH0sDQogICAgeGlhb21pOiB7IG46ICdYaWFvbWknLCBiYTogMC45LCB0OiAxLjA4LCBkOiAzLCBxOiAnQ+G6o20g4bupbmcga2jDoScgfSwNCiAgICBvcHBvOiB7IG46ICdPUFBPJywgYmE6IDAuODgsIHQ6IDEuMSwgZDogNCwgcTogJ1RydW5nIGLDrG5oJyB9LA0KICAgIHZpdm86IHsgbjogJ1Zpdm8nLCBiYTogMC44NywgdDogMS4xLCBkOiA0LCBxOiAnVHJ1bmcgYsOsbmgnIH0sDQogICAgcmVhbG1lOiB7IG46ICdSZWFsbWUnLCBiYTogMC44OSwgdDogMS4wOSwgZDogMywgcTogJ0tow6EnIH0sDQogICAgb25lcGx1czogeyBuOiAnT25lUGx1cycsIGJhOiAwLjkzLCB0OiAxLjA0LCBkOiAyLCBxOiAnVOG7kXQnIH0sDQogICAgaHVhd2VpOiB7IG46ICdIdWF3ZWknLCBiYTogMC44NiwgdDogMS4xMiwgZDogNSwgcTogJ1RydW5nIGLDrG5oJyB9LA0KICAgIGFzdXM6IHsgbjogJ0FTVVMgUk9HJywgYmE6IDEuMDUsIHQ6IDAuOTUsIGQ6IDAsIHE6ICdHYW1pbmcgc2nDqnUgbmjhuqF5JyB9LA0KICAgIG51YmlhOiB7IG46ICdSZWQgTWFnaWMnLCBiYTogMS4wOCwgdDogMC45MiwgZDogMCwgcTogJ0dhbWluZyBzacOqdSBuaOG6oXknIH0sDQogICAgb3RoZXI6IHsgbjogJ0tow6FjJywgYmE6IDAuOSwgdDogMS4wOCwgZDogMywgcTogJ1Rpw6p1IGNodeG6qW4nfQ0KfTsNCmNvbnN0IFBST0JMRU1fQURKVVNUTUVOVFMgPSB7DQogICAgbG9jX2RhdTogWy01LCAtNCwgMF0sIGdpYXQ6IFstNCwgMCwgOF0sIG5hbmc6IFs4LCA2LCAwXSwgbmhlOiBbLTEwLCAtNiwgMF0sDQogICAgbGVjaF9wOiBbLTIsIDAsIC01XSwgbGVjaF90OiBbLTIsIDAsIC01XSwgZ2lhdF9sdWk6IFswLCA0LCA2XSwga29fdGhlbzogWzYsIDAsIDVdDQp9Ow0KY29uc3QgUFJPQkxFTV9ERVNDUklQVElPTlMgPSB7DQogICAgbG9jX2RhdTogJ/CflLQgPHNwYW4gY2xhc3M9ImhsIj5M4buRIMSR4bqndTo8L3NwYW4+IEdp4bqjbSBOaMOsbmggeHVuZyBxdWFuaC4nLA0KICAgIGdpYXQ6ICfimqHCnyA8c3BhbiBjbGFzcz0iaGwiPkdp4bqtdC9ydW5nOjwvc3Bhbj4gVMSDbmcgTsO6dCBjYW1lcmEgdOG7sSBkby4nLA0KICAgIG5hbmc6ICfwn4+L77iPIDxzcGFuIGNsYXNzPSJobCI+TuG6t25nOjwvc3Bhbj4gVMSDbmcgTmjDrG5oIHh1bmcgcXVhbmggKyDhu5BuZyBuZ2jhuqltIGjhu5NuZyB0w6JtLicsDQogICAgbmhlOiAn8J+utiA8c3BhbiBjbGFzcz0iaGwiPk5o4bq1IHF1w6E6PC9zcGFuPiBHaeG6o20gTmjDrG5oIHh1bmcgcXVhbmguJywNCiAgICBsZWNoX3A6ICfinoDvuI8gPHNwYW4gY2xhc3M9ImhsIj5M4buHY2ggcGjhuqNpOjwvc3Bhbj4gQ2jhu4luaCBOw7p0IGNhbWVyYSB04buxIGRvLicsDQogICAgbGVjaF90OiAn4pWQ77iPIDxzcGFuIGNsYXNzPSJobCI+TOG7h2NoIHRyw6FpOjwvc3Bhbj4gQ2jhu4luaCBOw7p0IGNhbWVyYSB04buxIGRvLicsDQogICAgZ2lhdF9sdWk6ICfwn5SrIDxzcGFuIGNsYXNzPSJobCI+R2nhuq10IGzDuWk6PC9zcGFuPiBUxINuZyBOw7p0IGNhbWVyYSB04buxIGRvICsg4buQbmcgbmdo4bqpbSBo4buTbmcgdMOibS4nLA0KICAgIGtvX3RoZW86ICfwn5GkIDxzcGFuIGNsYXNzPSJobCI+S28gdGhlbyBt4bulYyB0acOqdTo8L3NwYW4+IFTEs25nIE5ow6xuaCB4dW5nIHF1YW5oICsgTsO6dCBjYW1lcmEgdOG7sSBkby4nDQp9Ow0KY29uc3QgcHJvYnMgPSBuZXcgU2V0KCk7DQpmdW5jdGlvbiBwcm9jZXNzS2V5QWN0aXZhdGlvbigpIHsNCiAgICBjb25zdCBpbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdrZXlJbnB1dCcpOw0KICAgIGlmIChpbnB1dC52YWx1ZS50cmltKCkgPT09IFZBTElEX0tFWSkgew0KICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgna2V5TW9kYWwnKS5jbGFzc0xpc3QuYWRkKCdoaWRkZW4nKTsNCiAgICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xvYWRpbmdTY3JlZW4nKS5jbGFzc0xpc3QucmVtb3ZlKCdoaWRkZW4nKTsNCiAgICAgICAgc2V0VGltZW91dCgoKSA9PiB7DQogICAgICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbG9hZGluZ1NjcmVlbicpLmNsYXNzTGlzdC5hZGQoJ2hpZGRlbicpOw0KICAgICAgICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21haW5BcHAnKS5jbGFzc0xpc3QucmVtb3ZlKCdoaWRkZW4nKTsNCiAgICAgICAgfSwgMTUwMCk7DQogICAgfSBlbHNlIHsNCiAgICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2tleUVycicpLnN0eWxlLmRpc3BsYXkgPSAnYmxvY2snOw0KICAgICAgICBpbnB1dC52YWx1ZSA9ICcnOw0KICAgIH0NCn0NCmZ1bmN0aW9uIHBlcmZvcm1EaWFnbm9zaXMoKSB7DQogICAgY29uc3QgYiA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdicmFuZCcpLnZhbHVlOw0KICAgIGNvbnN0IHMgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc2NyZWVuJykudmFsdWU7DQogICAgY29uc3QgaCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdoeicpLnZhbHVlOw0KICAgIGNvbnN0IHN0ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3NjcmVlblR5cGUnKS52YWx1ZTsNCiAgICBpZiAoIWIgfHwgIXMgfHwgIWggfHwgIXN0KSByZXR1cm4gYWxlcnQoJ1Z1aSBsw7JuZyBjaOG7jW4gxJHhuqd5IMSR4bunIHRow7RuZyB0aW4hJyk7DQoNCiAgICBjb25zdCBzeiA9IHBhcnNlRmxvYXQocyksIGh6ID0gcGFyc2VJbnQoaCksIHcgPSBwYXJzZUludChkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnd2VpZ2h0JykudmFsdWUpOw0KICAgIGNvbnN0IGJmID0gQlJBTkRfUFJPRklMRVNbYl07DQoNCiAgICBsZXQgc2YgPSA2IC8gc3osIGhmID0gNjAgLyBoejsNCiAgICBsZXQgc3RGYWN0b3IgPSBzdCA9PT0gJ2xvJyA/IDAuOTMgOiAxLjA7DQoNCiAgICBsZXQgY2FtID0gTWF0aC5yb3VuZChzZiAqIGhmICogYmYuYmEgKiAxLjAgKiA5NSAqIHN0RmFjdG9yICsgYmYuZCAqIDIpOw0KICAgIGNhbSA9IE1hdGgubWF4KDMwLCBNYXRoLm1pbigxMDAsIGNhbSkpOw0KICAgIGxldCBhZHMgPSBNYXRoLnJvdW5kKGNhbSAqIDAuNzUpOw0KICAgIGFkcyA9IE1hdGgubWF4KDIwLCBNYXRoLm1pbig5NSwgYWRzKSk7DQoNCiAgICBsZXQgY20gPSAwLCBhbSA9IDAsIGdtID0gMCwgZGcgPSAnJzsNCiAgICBpZiAoc3QgPT09ICdsbycpIGRnICs9ICfwn5KxIDxzcGFuIGNsYXNzPSJobCI+TcOgbiBsw7Q6PC9zcGFuPiBD4bqjbSDhu6luZyBrw6ltIG5o4bqheSBoxqFuLCDEkcOjIMSRaeG7gXUgY2jhu4luaCBnaeG6o20gbmjhurk oxJHhu5kgbmg6oXkuICc7DQoNCiAgICBwcm9icy5mb3JFYWNoKHYgPT4gew0KICAgICAgICBkZyArPSBQUk9CTEVNX0RFU0NSSVBUSU9OU1t2XSArICcgJzsNCiAgICAgICAgY20gKz0gUFJPQkxFTV9BREpVU1RNRU5UU1t2XVswXTsNCiAgICAgICAgYW0gKz0gUFJPQkxFTV9BREpVU1RNRU5UU1t2XVsxXTsNCiAgICAgICAgZ20gKz0gUFJPQkxFTV9BREpVU1RNRU5UU1t2XVsyXTsNCiAgICB9KTsNCg0KICAgIGlmICh3IDw9IDIpIHsgY20gKz0gKDMgLSB3KSAqIDY7IGFtICs9ICgzIC0gdykgKiA0OyBkZyArPSAn4pybIDxzcGFuIGNsYXNzPSJobCI+VGF5IHRo4bqleSBu4bq3bmc6PC9zcGFuPiBUxINuZyDEkeG7mSBuaOG6oXkuICc7IH0NCiAgICBpZiAodyA+PSA0KSB7IGNtIC09ICh3IC0gMykgKiA2OyBhbSAtPSAodyAtIDMpICogNDsgZGcgKz0gJ+KcmyA8c3BhbiBjbGFzcz0iaGwiPlRheSB0aOG6pXkgbmg6rXU6PC9zcGFuPiBHaeG6o20gxJHhu5kgbmg6oXkuICc7IH0NCiAgICBpZiAoIXByb2JzLnNpemUgJiYgdyA9PT0gMyAmJiBzdCA9PT0gJ3pobicpIGRnID0gJ+KchSA8c3BhbiBjbGFzcz0iaGwiPlTDom0gxJBjbSDEkeG7i25oLjwvc3Bhbj4gxJDhu5kgbmg6oXkgY8OibiBi4bqxbmcuICc7DQoNCiAgICBjYW0gPSBNYXRoLm1heCgyNSwgTWF0aC5taW4oMTAwLCBjYW0gKyBjbSkpOw0KICAgIGFkcyA9IE1hdGgubWF4KDE1LCBNYXRoLm1pbig5NSwgYWRzICsgYW0pKTsNCg0KICAgIGxldCBkb3QgPSBNYXRoLnJvdW5kKGFkcyAqIDAuODUpLCB4MiA9IE1hdGgucm91bmQoYWRzICogMC42NSksIHg0ID0gTWF0aC5yb3VuZChhZHMgKiAwLjQ1KSwgZ3kgPSBNYXRoLnJvdW5kKHN6ICogMTUgKyBoeiAqIDAuMiArIGdtKTsNCiAgICBkb3QgPSBNYXRoLm1heCgxNSwgTWF0aC5taW4oOTAsIGRvdCkpOyB4MiA9IE1hdGgubWF4KDEwLCBNYXRoLm1pbig4MCwgeDIpKTsgeDQgPSBNYXRoLm1heCg1LCBNYXRoLm1pbig2MCwgeDQpKTsgZ3kgPSBNYXRoLm1heCgyNSwgTWF0aC5taW4oOTUsIGd5KSk7DQoNCiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZGlhZycpLmlubmVySFRNTCA9ICc8c3Ryb25nPvCfk4sgQ0jhuqpOIMSQT0HDgU46PC9zdHJvbmc+PGJyPicgKyBkZyArICc8YnI+PHNtYWxsIHN0eWxlPSJjb2xvcjojODg4Ij4nICsgYmYubiArICcgfCAnICsgYmYucSArICcgfCBNw6BuICcgKyAoc3QgPT09ICdsbycgPyAnbMO0JyA6ICd6aW4nKSArICc8L3NtYWxsPic7DQogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3ZDYW0nKS50ZXh0Q29udGVudCA9IGNhbSArICclJzsNCiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndkFkcycpLnRleHRDb250ZW50ID0gYWRzICsgJyUnOw0KICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd2RG90JykudGV4dENvbnRlbnQgPSBkb3QgKyAnJSc7DQogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3YyeCcpLnRleHRDb250ZW50ID0geDIgKyAnJSc7DQogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Y0eCcpLnRleHRDb250ZW50ID0geDQgKyAnJSc7DQogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3ZHeXJvJykudGV4dENvbnRlbnQgPSBneSArICclJzsNCg0KICAgIGxldCBudCA9ICfwn5KhIDxzcGFuIGNsYXNzPSJobCI+TWVvOjwvc3Bhbj4gJzsNCiAgICBpZiAoaHogPj0gMTIwKSBudCArPSBoeiArICdIejogxrB1IHRpw6puIE7DunQgY2FtZXJhIHThu7EgZG8uICc7DQogICAgaWYgKHN6ID49IDYuNykgbnQgKz0gJ03DoG4gbOG7m246IGNoxqFpIDQtNSBuZ8Ozbi4gJzsNCiAgICBpZiAoYiA9PT0gJ2FwcGxlJykgbnQgKz0gJ2lQaG9uZSBuaOG6oXksIHRyxrDhu6N0IHRow6wgZ2nhuqNtIDUlLiAnOw0KICAgIGlmIChbJ3hpYW9taScsICdvcHBvJywgJ3Zpdm8nLCAncmVhbG1lJywgJ2h1YXdlaSddLmluY2x1ZGVzKGIpKSBudCArPSAnQuG6rXQgTsO6dCBjYW1lcmEgdOG7sSBkbyBiw7kgdHLhu4UgY+G6o20g4bupbmcuICc7DQogICAgaWYgKHN0ID09PSAnbG8nKSBudCArPSAnTcOgbiBsw7QgdGjGsOG7nW5nIGPDsyDEkeG7mSB0cuG7lSBjYW8gaMahbiwgbsOqbiB0xINuZyBHeXJvIGLDuS4gJzsNCiAgICBudCArPSAnVsOgbyBQaMOybmcgdOG6rXAgdGVzdCDCsTMtNSUuJzsNCiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbm90ZScpLmlubmVySFRNTCA9IG50Ow0KICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyZXMnKS5jbGFzc0xpc3QuYWRkKCdzaG93Jyk7DQogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3JlcycpLnNjcm9sbEludG9WaWV3KHsgYmVoYXZpb3I6ICdzbW9vdGgnIH0pOw0KfQ0KZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2tleUlucHV0JykuYWRkRXZlbnRMaXN0ZW5lcigna2V5ZG93bicsIGZ1bmN0aW9uIChlKSB7IGlmIChlLmtleSA9PT0gJ0VudGVyJykgcHJvY2Vzc0tleUFjdGl2YXRpb24oKTsgfSk7DQpkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcucCcpLmZvckVhY2goZWwgPT4geyBlbC5vbmNsaWNrID0gKCkgPT4geyBlbC5jbGFzc0xpc3QudG9nZ2xlKCdvbicpOyBwcm9ic1tlbC5jbGFzc0xpc3QuY29udGFpbnMoJ29uJykgPyAnYWRkJyA6ICdkZWxldGUnXShlbC5kYXRhc2V0LnYpOyB9OyB9KTsNCjwvc2NyaXB0Pg0KPC9ib2R5Pg0KPC9odG1sPg0K</string>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>FF Sensitivity Web Clip</string>
+	<key>PayloadIdentifier</key>
+	<string>com.ffsensitivity.profile</string>
+	<key>PayloadOrganization</key>
+	<string>Mod by TheAnhh Text</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>b2c3d4e5-f6a7-8901-bcde-f12345678901</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
