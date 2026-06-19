@@ -1,0 +1,387 @@
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: teal; icon-glyph: magic;
+const html = `<!DOCTYPE html>
+<html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Tìm Độ Nhạy Free Fire Theo Dòng Máy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #f12711, #f5af19);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 35px;
+            font-size: 0.95em;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        @media (max-width: 500px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        select, input {
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23f5af19'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 35px;
+        }
+        input {
+            cursor: text;
+        }
+        select:focus, input:focus {
+            border-color: #f5af19;
+            box-shadow: 0 0 15px rgba(245,175,25,0.2);
+        }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #f12711, #f5af19);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+            margin-bottom: 25px;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(241,39,17,0.4);
+        }
+        .result-card {
+            background: rgba(0,0,0,0.5);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(245,175,25,0.3);
+            display: none;
+        }
+        .result-card.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-title {
+            text-align: center;
+            font-size: 1.3em;
+            color: #f5af19;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .sensitivity-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sensitivity-row:last-child {
+            border-bottom: none;
+        }
+        .sens-label {
+            font-weight: 500;
+            color: #ddd;
+        }
+        .sens-value {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #f5af19;
+            background: rgba(245,175,25,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+        }
+        .note {
+            margin-top: 20px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            font-size: 0.85em;
+            color: #aaa;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .brand-chip {
+            display: inline-block;
+            background: rgba(255,255,255,0.08);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-right: 6px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 TÌM ĐỘ NHẠY FREE FIRE</h1>
+        <p class="subtitle">Thuật toán phân tích phần cứng & tối ưu cảm ứng cho từng dòng máy</p>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>📱 Hãng điện thoại</label>
+                <select id="brand">
+                    <option value="">-- Chọn hãng --</option>
+                    <option value="apple">Apple (iPhone)</option>
+                    <option value="samsung">Samsung</option>
+                    <option value="xiaomi">Xiaomi / Redmi / POCO</option>
+                    <option value="oppo">OPPO</option>
+                    <option value="vivo">Vivo</option>
+                    <option value="realme">Realme</option>
+                    <option value="oneplus">OnePlus</option>
+                    <option value="huawei">Huawei</option>
+                    <option value="asus">ASUS (ROG Phone)</option>
+                    <option value="nubia">Nubia (Red Magic)</option>
+                    <option value="other">Khác</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>📐 Kích thước màn hình (inch)</label>
+                <select id="screenSize">
+                    <option value="">-- Chọn kích thước --</option>
+                    <option value="4.7">4.7 inch (iPhone SE, Mini)</option>
+                    <option value="5.5">5.5 inch (iPhone Plus cũ)</option>
+                    <option value="6.1">6.1 inch (iPhone 11/12/13/14/15)</option>
+                    <option value="6.3">6.3 - 6.4 inch</option>
+                    <option value="6.5">6.5 - 6.6 inch</option>
+                    <option value="6.7">6.7 inch (Pro Max / Ultra)</option>
+                    <option value="6.8">6.8 inch trở lên (tablet nhỏ)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>⚡ Tần số quét màn hình (Hz)</label>
+                <select id="refreshRate">
+                    <option value="">-- Chọn tần số quét --</option>
+                    <option value="60">60Hz (Tiêu chuẩn)</option>
+                    <option value="90">90Hz</option>
+                    <option value="120">120Hz</option>
+                    <option value="144">144Hz</option>
+                    <option value="165">165Hz+ (Gaming Phone)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>🎮 Cỡ tay / Số ngón chơi</label>
+                <select id="handSize">
+                    <option value="">-- Chọn kiểu chơi --</option>
+                    <option value="2-small">2 ngón - Tay nhỏ</option>
+                    <option value="2-large">2 ngón - Tay lớn</option>
+                    <option value="3">3 ngón (Claw cơ bản)</option>
+                    <option value="4">4 ngón (Claw nâng cao)</option>
+                    <option value="5">5-6 ngón (Pro Player / Tablet)</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn" onclick="calculateSensitivity()">🔍 PHÂN TÍCH & ĐỀ XUẤT ĐỘ NHẠY</button>
+
+        <div class="result-card" id="resultCard">
+            <div class="result-title" id="resultTitle"></div>
+            <div class="sensitivity-row">
+                <span class="sens-label">🔭 Nhìn xung quanh (Camera)</span>
+                <span class="sens-value" id="sensCamera">-</span>
+            </div>
+            <div class="sensitivity-row">
+                <span class="sens-label">🎯 Ngắm bắn (ADS)</span>
+                <span class="sens-value" id="sensADS">-</span>
+            </div>
+            <div class="sensitivity-row">
+                <span class="sens-label">🔴 Tâm ngắm (Red Dot)</span>
+                <span class="sens-value" id="sensRedDot">-</span>
+            </div>
+            <div class="sensitivity-row">
+                <span class="sens-label">🔭 Ống ngắm x2</span>
+                <span class="sens-value" id="sens2x">-</span>
+            </div>
+            <div class="sensitivity-row">
+                <span class="sens-label">🔭 Ống ngắm x4</span>
+                <span class="sens-value" id="sens4x">-</span>
+            </div>
+            <div class="sensitivity-row">
+                <span class="sens-label">📐 Con quay hồi chuyển (Gyro)</span>
+                <span class="sens-value" id="sensGyro">-</span>
+            </div>
+            <div class="note" id="noteText"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateSensitivity() {
+            const brand = document.getElementById('brand').value;
+            const screenSize = document.getElementById('screenSize').value;
+            const refreshRate = document.getElementById('refreshRate').value;
+            const handSize = document.getElementById('handSize').value;
+
+            if (!brand || !screenSize || !refreshRate || !handSize) {
+                alert('Vui lòng chọn đầy đủ tất cả thông số để tính toán chính xác!');
+                return;
+            }
+
+            const size = parseFloat(screenSize);
+            const hz = parseInt(refreshRate);
+            
+            // Hệ số nền tảng cảm ứng theo hãng
+            const brandFactors = {
+                'apple': { name: 'Apple iPhone', base: 1.0, touch: 1.0, delay: 0 },
+                'samsung': { name: 'Samsung Galaxy', base: 0.95, touch: 1.05, delay: 2 },
+                'xiaomi': { name: 'Xiaomi / Redmi / POCO', base: 0.90, touch: 1.08, delay: 3 },
+                'oppo': { name: 'OPPO', base: 0.88, touch: 1.10, delay: 4 },
+                'vivo': { name: 'Vivo', base: 0.87, touch: 1.10, delay: 4 },
+                'realme': { name: 'Realme', base: 0.89, touch: 1.09, delay: 3 },
+                'oneplus': { name: 'OnePlus', base: 0.93, touch: 1.04, delay: 2 },
+                'huawei': { name: 'Huawei', base: 0.86, touch: 1.12, delay: 5 },
+                'asus': { name: 'ASUS ROG Phone', base: 1.05, touch: 0.95, delay: 0 },
+                'nubia': { name: 'Nubia Red Magic', base: 1.08, touch: 0.92, delay: 0 },
+                'other': { name: 'Thiết bị khác', base: 0.90, touch: 1.08, delay: 3 }
+            };
+
+            const bf = brandFactors[brand];
+            
+            // Công thức tính độ nhạy Camera
+            // Camera = (60 / kích thước màn hình) * (60 / Hz) * hệ số nền tảng * hệ số ngón chơi * 100
+            let sizeFactor = 6.0 / size; // Màn hình nhỏ hơn -> cần độ nhạy thấp hơn để kiểm soát
+            let hzFactor = 60.0 / hz; // Hz cao hơn -> giảm độ nhạy vì cảm ứng mượt hơn
+            let handFactor = 1.0;
+            if (handSize.includes('2-small')) handFactor = 0.85;
+            else if (handSize.includes('2-large')) handFactor = 0.90;
+            else if (handSize.includes('3')) handFactor = 0.95;
+            else if (handSize.includes('4')) handFactor = 1.05;
+            else if (handSize.includes('5')) handFactor = 1.15;
+
+            // Công thức cốt lõi
+            let cameraSens = Math.round((sizeFactor * hzFactor * bf.base * handFactor * 95));
+            // Giới hạn trong khoảng 30-100
+            cameraSens = Math.max(30, Math.min(100, cameraSens));
+
+            // ADS = Camera * 0.75 (luôn thấp hơn để kiểm soát khi ngắm)
+            let adsSens = Math.round(cameraSens * 0.75);
+            adsSens = Math.max(20, Math.min(95, adsSens));
+
+            // Red Dot = ADS * 0.85
+            let redDotSens = Math.round(adsSens * 0.85);
+            redDotSens = Math.max(15, Math.min(90, redDotSens));
+
+            // Ống ngắm x2 = ADS * 0.65
+            let sens2x = Math.round(adsSens * 0.65);
+            sens2x = Math.max(10, Math.min(80, sens2x));
+
+            // Ống ngắm x4 = ADS * 0.45
+            let sens4x = Math.round(adsSens * 0.45);
+            sens4x = Math.max(5, Math.min(60, sens4x));
+
+            // Gyro: phụ thuộc vào tần số quét và kích thước màn hình
+            let gyroBase = Math.round((size * 15) + (hz * 0.2));
+            gyroBase = Math.max(30, Math.min(90, gyroBase));
+
+            // Điều chỉnh dựa trên độ trễ cảm ứng của hãng
+            let delayAdjust = bf.delay * 2;
+            cameraSens = Math.round(cameraSens + delayAdjust);
+            adsSens = Math.round(adsSens + delayAdjust * 0.8);
+
+            // Hiển thị kết quả
+            document.getElementById('resultTitle').innerHTML = 
+                '📱 ' + bf.name + ' | ' + screenSize + '" | ' + hz + 'Hz | ' + 
+                (handSize.includes('2') ? '2 Ngón' : handSize.includes('3') ? '3 Ngón' : handSize.includes('4') ? '4 Ngón' : '5+ Ngón');
+            
+            document.getElementById('sensCamera').textContent = cameraSens + '%';
+            document.getElementById('sensADS').textContent = adsSens + '%';
+            document.getElementById('sensRedDot').textContent = redDotSens + '%';
+            document.getElementById('sens2x').textContent = sens2x + '%';
+            document.getElementById('sens4x').textContent = sens4x + '%';
+            document.getElementById('sensGyro').textContent = gyroBase + '%';
+            
+            let note = '💡 Mẹo: ';
+            if (hz >= 120) {
+                note += 'Máy bạn có tần số quét cao, tận dụng Gyro để tối ưu phản xạ. ';
+            }
+            if (size >= 6.7) {
+                note += 'Màn hình lớn, nên chơi 4-5 ngón để thao tác nhanh hơn. ';
+            }
+            if (brand === 'apple') {
+                note += 'iPhone có cảm ứng rất nhạy, giảm thêm 5% nếu thấy trượt quá. ';
+            }
+            if (brand === 'xiaomi' || brand === 'oppo' || brand === 'vivo' || brand === 'realme') {
+                note += 'Máy Android tầm trung có độ trễ cảm ứng nhẹ, tăng Gyro bù trừ. ';
+            }
+            note += 'Vào Phòng tập kiểm tra và tinh chỉnh ±5% cho phù hợp tay.';
+            document.getElementById('noteText').textContent = note;
+
+            document.getElementById('resultCard').classList.add('show');
+            document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
+</html>`;
+const webView = new WebView();
+await webView.loadHTML(html);
+await webView.present();
+Script.complete();
