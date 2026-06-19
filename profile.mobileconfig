@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>FullScreen</key>
+			<true/>
+			<key>IsRemovable</key>
+			<true/>
+			<key>Label</key>
+			<string>FF Sensitivity Tool</string>
+			<key>PayloadDisplayName</key>
+			<string>FF Sensitivity Tool</string>
+			<key>PayloadIdentifier</key>
+			<string>com.ffsensitivity.webclip</string>
+			<key>PayloadType</key>
+			<string>com.apple.webClip.managed</string>
+			<key>PayloadUUID</key>
+			<string>a1b2c3d4-e5f6-7890-abcd-ef1234567890</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>Precomposed</key>
+			<true/>
+			<key>URL</key>
+			<string>https://raw.githubusercontent.com/Nguyenthedan-cpu/donhayff/refs/heads/main/index.html</string>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>FF Sensitivity Profile</string>
+	<key>PayloadIdentifier</key>
+	<string>com.ffsensitivity.profile</string>
+	<key>PayloadOrganization</key>
+	<string>TheAnhh Text</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>b2c3d4e5-f6a7-8901-bcde-f12345678901</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
