@@ -1,49 +1,60 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FF Sensitivity Tool</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, sans-serif; background: #0d0d1a; color: #fff; padding: 15px; }
-.c { max-width: 500px; margin: 0 auto; }
-h1 { text-align: center; font-size: 1.3em; background: linear-gradient(90deg, #f60, #fa0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
-.sub { text-align: center; color: #888; font-size: .78em; margin-bottom: 15px; }
-.s { font-size: .82em; font-weight: 700; color: #fa0; margin: 12px 0 6px; border-bottom: 1px solid rgba(255,140,0,.2); padding-bottom: 4px; }
-.g { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-label { font-weight: 600; color: #bbb; font-size: .72em; display: block; margin-bottom: 2px; }
-select { width: 100%; padding: 9px; border-radius: 10px; border: 1px solid rgba(255,255,255,.15); background: rgba(0,0,0,.5); color: #fff; font-size: .82em; appearance: none; }
-.btn { width: 100%; padding: 13px; background: linear-gradient(90deg, #e63900, #fa0); border: none; border-radius: 14px; color: #fff; font-size: 1em; font-weight: 700; cursor: pointer; margin: 16px 0; text-transform: uppercase; }
-.res { background: rgba(0,0,0,.5); border-radius: 16px; padding: 18px; border: 1px solid rgba(255,140,0,.3); display: none; }
-.res.show { display: block; }
-.diag { background: rgba(255,100,0,.08); border-left: 3px solid #fa0; padding: 10px; border-radius: 0 10px 10px 0; margin-bottom: 12px; font-size: .78em; color: #ddd; }
-.row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
-.rl { color: #ccc; font-size: .8em; }
-.rv { font-weight: 700; color: #fa0; padding: 4px 12px; border-radius: 15px; font-size: .9em; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sensitivity FF OB53</title>
+    <style>
+        body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .card { background: #161b2a; border-radius: 20px; padding: 20px; width: 100%; max-width: 400px; border: 1px solid #2d3748; }
+        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .header .icon { background: #5eead4; color: black; padding: 5px 10px; border-radius: 8px; font-weight: bold; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .box { background: #1f2937; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; }
+        .box.active { border: 1px solid #5eead4; background: #1e3a3a; }
+        select { width: 100%; padding: 12px; background: #1f2937; color: white; border: 1px solid #374151; border-radius: 10px; margin-bottom: 15px; }
+        .problems { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .btn-find { background: linear-gradient(90deg, #22d3ee, #5eead4); color: black; }
+        .btn-reset { background: #1f2937; color: #9ca3af; border: 1px solid #374151; }
+    </style>
 </head>
 <body>
-<div class="c">
-    <h1>FF Sensitivity Tool</h1>
-    <p class="sub">Công cụ tính toán độ nhạy</p>
-    <div class="s">THÔNG SỐ MÁY</div>
-    <div class="g">
-        <div><label>Hãng</label><select id="brand"><option value="apple">iPhone</option><option value="samsung">Samsung</option></select></div>
-        <div><label>Tần số quét</label><select id="hz"><option value="60">60Hz</option><option value="120">120Hz</option></select></div>
+
+<div class="card">
+    <div class="header">
+        <div class="icon">CL</div>
+        <div><strong>SENSITIVITY FREE FIRE OB53</strong><br><small style="color: #6b7280;">Hệ điều hành · Máy · Game · Tình trạng</small></div>
     </div>
-    <button class="btn" onclick="tinhToan()">TÍNH TOÁN</button>
-    <div class="res" id="res">
-        <div class="diag" id="diag">Kết quả sẽ hiện ở đây</div>
-        <div class="row"><span class="rl">Nhìn xung quanh</span><span class="rv" id="vCam">-</span></div>
+
+    <div class="grid-2">
+        <div class="box active">🍎 iOS</div>
+        <div class="box">🤖 Android</div>
     </div>
+
+    <select>
+        <option>iPhone 17</option>
+        <option>iPhone 16 Pro Max</option>
+        <option>iPhone 15 Pro</option>
+    </select>
+
+    <div class="grid-2">
+        <div class="box">🔥 Free Fire</div>
+        <div class="box active">💎 FF MAX</div>
+    </div>
+
+    <div class="problems">
+        <div class="box">🎯 Lỗ Đầu</div>
+        <div class="box">💨 Lạc Đạn</div>
+        <div class="box">⚡ Giật Tâm</div>
+        <div class="box">🤯 Nặng Tâm</div>
+        <div class="box">💰 Rung Tay</div>
+        <div class="box">🏃 Trượt Địch</div>
+    </div>
+
+    <button class="btn btn-find">🔍 TÌM ĐỘ NHẠY</button>
+    <button class="btn btn-reset">🔄 Reset về mặc định</button>
 </div>
-<script>
-function tinhToan() {
-    document.getElementById('diag').innerText = "Đã tính toán xong!";
-    document.getElementById('vCam').innerText = "95%";
-    document.getElementById('res').classList.add('show');
-}
-</script>
+
 </body>
 </html>
