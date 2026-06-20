@@ -3,52 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sensitivity Free Fire</title>
+    <link rel="apple-touch-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnczxfSR4HP9x7IXBbE6SJpIc9q06Aqwiq6GxtrwdNpg&s">
+    <title>Sensitivity FF OB53</title>
     <style>
-        body { background: #0a0e17; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .card { background: #161b2a; padding: 40px 30px; border-radius: 25px; width: 90%; max-width: 350px; text-align: center; border: 1px solid #2d3748; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h3 { margin-top: 0; color: #5eead4; }
-        input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #374151; background: #1f2937; color: white; box-sizing: border-box; margin: 20px 0; }
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(90deg, #22d3ee, #5eead4); font-weight: bold; cursor: pointer; color: black; }
+        body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; margin: 0; min-height: 100vh; align-items: center; }
+        .card { background: #161b2a; border-radius: 20px; padding: 20px; width: 100%; max-width: 400px; border: 1px solid #2d3748; }
         
-        #error-msg { color: #ff4d4d; margin-top: 10px; display: none; font-size: 14px; }
-        #loading { display: none; margin-top: 20px; color: #5eead4; }
+        /* Cấu trúc màn hình */
+        #login-screen { text-align: center; }
+        #loading-screen { display: none; text-align: center; font-size: 20px; }
         #app-content { display: none; }
+        
+        /* CSS Giao diện cũ của bạn */
+        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .header .icon { background: #5eead4; color: black; padding: 5px 10px; border-radius: 8px; font-weight: bold; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .box { background: #1f2937; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; }
+        .box.active { border: 1px solid #5eead4; background: #1e3a3a; }
+        select { width: 100%; padding: 12px; background: #1f2937; color: white; border: 1px solid #374151; border-radius: 10px; margin-bottom: 15px; }
+        .problems { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .btn-find { background: linear-gradient(90deg, #22d3ee, #5eead4); color: black; }
+        .btn-reset { background: #1f2937; color: #9ca3af; border: 1px solid #374151; }
+        input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #374151; background: #1f2937; color: white; box-sizing: border-box; margin-bottom: 10px; }
+        #error-msg { color: #ff4d4d; display: none; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-<div id="login-container" class="card">
-    <h3>NHẬP KEY APP</h3>
-    <p style="color: #6b7280; font-size: 14px;">Sensitivity Free Fire</p>
-    <input type="text" id="key-input" placeholder="Nhập KEY của bạn...">
-    <button class="btn" onclick="checkKey()">Unlock Sensitivity 🔓</button>
-    <div id="error-msg">❌ KEY không đúng, vui lòng thử lại!</div>
-    <div id="loading">⏳ Đang xác thực...</div>
+<div id="login-screen" class="card">
+    <h3>🔑 NHẬP KEY APP</h3>
+    <input type="password" id="key-input" placeholder="Nhập Key...">
+    <button class="btn btn-find" onclick="checkKey()">UNLOCK SENSITIVITY</button>
+    <div id="error-msg">❌ Key không đúng!</div>
+</div>
+
+<div id="loading-screen" class="card">
+    <p>⏳ Đang xác thực dữ liệu...</p>
 </div>
 
 <div id="app-content" class="card">
-    <h3>SENSITIVITY FREE FIRE</h3>
-    <p>Chào mừng bạn đã mở khóa thành công!</p>
-    <button class="btn" onclick="location.reload()">Đăng xuất</button>
+    <div class="header">
+        <div class="icon">CL</div>
+        <div><strong>SENSITIVITY FREE FIRE OB53</strong><br><small style="color: #6b7280;">Hệ điều hành · Máy · Game</small></div>
+    </div>
+    <div class="grid-2">
+        <div class="box active">🍎 iOS</div>
+        <div class="box">🤖 Android</div>
+    </div>
+    <select><option>iPhone 17</option><option>iPhone 16 Pro Max</option></select>
+    <div class="grid-2">
+        <div class="box">🔥 Free Fire</div>
+        <div class="box active">💎 FF MAX</div>
+    </div>
+    <button class="btn btn-find">🔍 TÌM ĐỘ NHẠY</button>
+    <button class="btn btn-reset" onclick="location.reload()">🔄 Đăng xuất</button>
 </div>
 
 <script>
     function checkKey() {
-        const key = document.getElementById('key-input').value;
-        const errorMsg = document.getElementById('error-msg');
-        
-        if(key === "donhayff") {
-            errorMsg.style.display = 'none';
-            document.getElementById('login-container').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
+        if(document.getElementById('key-input').value === "donhayff") {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('loading-screen').style.display = 'block';
             setTimeout(() => {
-                document.getElementById('loading').style.display = 'none';
+                document.getElementById('loading-screen').style.display = 'none';
                 document.getElementById('app-content').style.display = 'block';
             }, 1500);
         } else {
-            // Hiển thị thông báo đỏ ngay dưới nút
-            errorMsg.style.display = 'block';
+            document.getElementById('error-msg').style.display = 'block';
         }
     }
 </script>
