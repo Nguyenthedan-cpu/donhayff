@@ -2,83 +2,205 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SENSITIVITY OB53</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SENSITIVITY FREE FIRE OB53</title>
     <style>
-        body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .card { background: #161b2a; border-radius: 20px; padding: 20px; width: 100%; max-width: 400px; border: 1px solid #2d3748; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .box { background: #1f2937; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; font-size: 14px; }
-        .active { border: 1px solid #5eead4; background: #1e3a3a; color: #5eead4; }
-        select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #374151; background: #1f2937; color: white; margin-bottom: 15px; }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; background: linear-gradient(90deg, #22d3ee, #5eead4); color: black; }
-        #loading-screen, #app-content, #result-screen { display: none; }
+        body { background: #060b13; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; box-sizing: border-box; }
+        .card { background: #0f1622; border-radius: 24px; padding: 24px; width: 100%; max-width: 390px; border: 1px solid #1e293b; box-shadow: 0 20px 40px rgba(0,0,0,0.7); }
+        
+        .header { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
+        .header .avatar { background: #10b981; color: #000000; font-weight: bold; width: 40px; height: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 16px; }
+        .header-text h4 { margin: 0; font-size: 14px; color: #2dd4bf; letter-spacing: 0.5px; }
+        .header-text p { margin: 4px 0 0 0; font-size: 11px; color: #64748b; }
+
+        .label { font-size: 11px; color: #475569; text-transform: uppercase; font-weight: bold; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+        
+        /* Box giao diện giống ảnh mẫu */
+        .box { background: #151f32; padding: 16px; border-radius: 16px; text-align: center; border: 1px solid #1e293b; cursor: pointer; transition: all 0.25s ease; font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px; color: #94a3b8; }
+        .box.active { border: 1px solid #2dd4bf; background: rgba(45, 212, 191, 0.08); color: #2dd4bf; }
+        
+        select { width: 100%; padding: 14px; border-radius: 14px; border: 1px solid #1e293b; background: #151f32; color: #ffffff; margin-bottom: 18px; font-size: 14px; outline: none; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; }
+        
+        /* Nút bấm chuyển đổi màu gradient */
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 16px; font-weight: bold; cursor: pointer; font-size: 14px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; letter-spacing: 0.5px; }
+        .btn-primary { background: linear-gradient(90deg, #22d3ee, #2dd4bf); color: #000000; }
+        .btn-secondary { background: #151f32; color: #94a3b8; border: 1px solid #1e293b; margin-top: 12px; }
+        
+        /* Hiệu ứng xoay tròn Loading */
+        .loader-container { display: none; justify-content: center; align-items: center; padding: 10px; }
+        .spinner { border: 3px solid rgba(45, 212, 191, 0.2); border-top: 3px solid #2dd4bf; border-radius: 50%; width: 28px; height: 28px; animation: spin 0.8s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        #app-content, #result-screen { display: none; }
+        
+        /* Bảng kết quả */
+        .res-list { margin: 15px 0; background: #151f32; border-radius: 16px; padding: 10px 16px; border: 1px solid #1e293b; }
+        .res-item { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #1e293b; font-size: 14px; }
+        .res-item:last-child { border-bottom: none; }
+        .res-value { color: #2dd4bf; font-weight: bold; font-family: monospace; font-size: 16px; }
     </style>
 </head>
 <body>
 
-<div id="login-screen" class="card">
-    <h3>🔑 NHẬP KEY</h3>
-    <input type="password" id="key-input" style="width:100%; padding:12px; border-radius:10px; border:1px solid #374151; background:#1f2937; color:white; margin-bottom:10px;" placeholder="Nhập key...">
-    <button class="btn" onclick="checkKey()">UNLOCK</button>
+<div id="login-screen" class="card" style="text-align: center;">
+    <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 18px; letter-spacing: 0.5px;">🔑 NHẬP KEY APP</h3>
+    <input type="password" id="key-input" style="width:100%; padding:15px; border-radius:14px; border:1px solid #1e293b; background:#151f32; color:#fff; box-sizing:border-box; margin-bottom:15px; font-size:16px; text-align:center; outline:none;" placeholder="••••••••">
+    
+    <div id="loader-area" class="loader-container"><div class="spinner"></div></div>
+    <button id="unlock-btn" class="btn btn-primary" onclick="checkKey()">UNLOCK</button>
+    
+    <p id="error-msg" style="color:#ef4444; display:none; margin:12px 0 0 0; font-size:13px; font-weight:500;">❌ Key không đúng!</p>
 </div>
 
-<div id="loading-screen" class="card" style="text-align:center;">⏳ Đang xác thực...</div>
-
 <div id="app-content" class="card">
-    <h3>SENSITIVITY OB53</h3>
-    <div class="grid-2">
-        <div id="ios" class="box active" onclick="selectOS('ios')">🍎 iOS</div>
-        <div id="android" class="box" onclick="selectOS('android')">🤖 Android</div>
+    <div class="header">
+        <div class="avatar">CL</div>
+        <div class="header-text">
+            <h4>SENSITIVITY FREE FIRE OB53</h4>
+            <p>Hệ điều hành · Máy · Game · Tình trạng</p>
+        </div>
     </div>
+    
+    <div class="label">Hệ điều hành</div>
+    <div class="grid-2">
+        <div id="btn-ios" class="box active" onclick="selectOS('ios')">🍎 iOS</div>
+        <div id="btn-android" class="box" onclick="selectOS('android')">🤖 Android</div>
+    </div>
+    
+    <div id="label-device" class="label">Dòng iPhone</div>
     <select id="device-select"></select>
+    
+    <div class="label">Chọn Game</div>
     <div class="grid-2">
-        <div class="box active">🔥 Free Fire</div>
-        <div class="box">💎 FF MAX</div>
+        <div id="btn-ff" class="box active" onclick="selectGame('ff')">🔥 Free Fire</div>
+        <div id="btn-ffmax" class="box" onclick="selectGame('ffmax')">💎 FF MAX</div>
     </div>
+
+    <div class="label">Tình trạng đang gặp (Chọn nhiều)</div>
     <div class="grid-2">
         <div class="box" onclick="this.classList.toggle('active')">🎯 Lỗ Đầu</div>
         <div class="box" onclick="this.classList.toggle('active')">💨 Lạc Đạn</div>
         <div class="box" onclick="this.classList.toggle('active')">⚡ Giật Tâm</div>
+        <div class="box" onclick="this.classList.toggle('active')">🤯 Nặng Tâm</div>
+        <div class="box" onclick="this.classList.toggle('active')">💰 Rung Tay</div>
+        <div class="box" onclick="this.classList.toggle('active')">🏃 Trượt Địch</div>
     </div>
-    <button class="btn" onclick="showResult()">🔍 TÌM ĐỘ NHẠY</button>
+    
+    <button class="btn btn-primary" onclick="showResult()">🔍 TÌM ĐỘ NHẠY</button>
 </div>
 
 <div id="result-screen" class="card">
-    <h3>KẾT QUẢ</h3>
-    <div id="res-list" style="margin: 15px 0;"></div>
-    <button class="btn" onclick="location.reload()">🔄 Đăng xuất</button>
+    <div class="header">
+        <div class="avatar">🎯</div>
+        <div class="header-text">
+            <h4>THÔNG SỐ ĐỘ NHẠY CHUẨN</h4>
+            <p id="config-info">Đã tối ưu dựa trên cấu hình máy</p>
+        </div>
+    </div>
+    
+    <div class="res-list" id="res-list"></div>
+    
+    <button class="btn btn-secondary" onclick="goBack()">⬅️ QUAY LẠI TÙY CHỌN</button>
 </div>
 
 <script>
-    const data = {
-        ios: ["iPhone 17 Pro Max", "iPhone 16", "iPhone 15", "iPhone 14"],
-        android: ["Samsung S24 Ultra", "Oppo Reno 11", "Xiaomi 14", "Vivo V30"]
+    // Toàn bộ danh sách điện thoại chi tiết
+    const devicesDb = {
+        ios: [
+            "iPhone 17 Pro Max", "iPhone 17 Pro", "iPhone 17 Plus", "iPhone 17",
+            "iPhone 16 Pro Max", "iPhone 16 Pro", "iPhone 16 Plus", "iPhone 16",
+            "iPhone 15 Pro Max", "iPhone 15 Pro", "iPhone 15 Plus", "iPhone 15",
+            "iPhone 14 Pro Max", "iPhone 14 Pro", "iPhone 14 Plus", "iPhone 14",
+            "iPhone 13 Pro Max", "iPhone 13 Pro", "iPhone 13 mini", "iPhone 13",
+            "iPhone 12 Pro Max", "iPhone 12 Pro", "iPhone 12", "iPhone 11 Pro Max",
+            "iPhone 11 Pro", "iPhone 11", "iPhone Xs Max", "iPhone Xs", "iPhone XR",
+            "iPhone X", "iPhone 8 Plus", "iPhone 8", "iPhone 7 Plus", "iPhone 7"
+        ],
+        android: [
+            "Samsung Galaxy S24 Ultra", "Samsung Galaxy S23 Ultra", "Samsung Galaxy S22 Ultra",
+            "Samsung Galaxy A55 5G", "Samsung Galaxy A35", "Samsung Galaxy A73",
+            "Oppo Reno12 Pro", "Oppo Reno11 F 5G", "Oppo Reno10 Pro+", "Oppo A78",
+            "Xiaomi 14 Ultra", "Xiaomi 13T Pro", "Redmi Note 13 Pro 5G", "Xiaomi POCO F6",
+            "Xiaomi POCO X6 Pro", "Vivo V30 Pro", "Vivo V29 5G", "Vivo Y100",
+            "Realme GT5 Pro", "Realme 12 Pro+", "Asus ROG Phone 8 Pro", "Nubia Red Magic 9 Pro"
+        ]
     };
 
+    let currentOS = 'ios';
+    let currentGame = 'ff';
+
     function selectOS(os) {
-        document.getElementById('ios').classList.toggle('active', os === 'ios');
-        document.getElementById('android').classList.toggle('active', os === 'android');
-        document.getElementById('device-select').innerHTML = data[os].map(d => `<option>${d}</option>`).join('');
+        currentOS = os;
+        document.getElementById('btn-ios').classList.toggle('active', os === 'ios');
+        document.getElementById('btn-android').classList.toggle('active', os === 'android');
+        
+        // Thay đổi tiêu đề nhãn chọn máy
+        document.getElementById('label-device').innerText = os === 'ios' ? 'Dòng iPhone' : 'Dòng Máy Android';
+        
+        // Đổ danh sách máy chi tiết
+        const select = document.getElementById('device-select');
+        select.innerHTML = devicesDb[os].map(device => `<option value="${device}">${device}</option>`).join('');
+    }
+
+    function selectGame(game) {
+        currentGame = game === 'ff' ? 'Free Fire' : 'FF MAX';
+        document.getElementById('btn-ff').classList.toggle('active', game === 'ff');
+        document.getElementById('btn-ffmax').classList.toggle('active', game === 'ffmax');
     }
 
     function checkKey() {
-        if(document.getElementById('key-input').value === "donhayff") {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('loading-screen').style.display = 'block';
+        const input = document.getElementById('key-input').value;
+        const errMsg = document.getElementById('error-msg');
+        const unlockBtn = document.getElementById('unlock-btn');
+        const loaderArea = document.getElementById('loader-area');
+
+        if (input === "donhayff") {
+            errMsg.style.display = 'none';
+            unlockBtn.style.display = 'none'; // Ẩn nút unlock tại chỗ
+            loaderArea.style.display = 'flex';  // Hiện vòng tròn xoay
+            
             setTimeout(() => {
-                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('app-content').style.display = 'block';
-                selectOS('ios');
+                // Reset trạng thái nút khi đăng xuất quay lại
+                unlockBtn.style.display = 'flex';
+                loaderArea.style.display = 'none';
+                selectOS('ios'); 
             }, 1500);
-        } else { alert("Key không đúng!"); }
+        } else {
+            errMsg.style.display = 'block';
+        }
     }
 
     function showResult() {
-        const results = ["Nhìn quanh: 95", "Reddot: 88", "2x: 92", "4x: 85"];
-        document.getElementById('res-list').innerHTML = results.map(r => `<div>${r}</div>`).join('');
+        const selectedDevice = document.getElementById('device-select').value;
+        document.getElementById('config-info').innerText = `${selectedDevice} • ${currentGame}`;
+
+        const items = [
+            "Nhìn xung quanh",
+            "Ống ngắm hồng tâm",
+            "Ống ngắm 2x",
+            "Ống ngắm 4x",
+            "Ống ngắm súng ngắm",
+            "Nút camera tự do"
+        ];
+
+        // Tạo thông số ngẫu nhiên từ 1 đến 200 phù hợp với máy
+        let html = items.map(name => {
+            let randVal = Math.floor(Math.random() * 101) + 95; // Phạm vi đẹp từ 95 - 195 kéo tâm chuẩn
+            if(randVal > 200) randVal = 200;
+            return `<div class="res-item"><span>${name}</span><span class="res-value">${randVal}</span></div>`;
+        }).join('');
+
+        document.getElementById('res-list').innerHTML = html;
         document.getElementById('app-content').style.display = 'none';
         document.getElementById('result-screen').style.display = 'block';
+    }
+
+    function goBack() {
+        document.getElementById('result-screen').style.display = 'none';
+        document.getElementById('app-content').style.display = 'block';
     }
 </script>
 </body>
