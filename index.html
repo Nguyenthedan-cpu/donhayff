@@ -2,31 +2,84 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sensitivity FF OB53</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENSITIVITY OB53</title>
     <style>
-        body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
+        body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
         .card { background: #161b2a; border-radius: 20px; padding: 20px; width: 100%; max-width: 400px; border: 1px solid #2d3748; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .box { background: #1f2937; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; transition: 0.3s; font-size: 13px; }
+        .box { background: #1f2937; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; font-size: 14px; }
         .active { border: 1px solid #5eead4; background: #1e3a3a; color: #5eead4; }
-        select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #374151; background: #1f2937; color: white; margin-bottom: 15px; font-size: 14px; }
+        select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #374151; background: #1f2937; color: white; margin-bottom: 15px; }
         .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; background: linear-gradient(90deg, #22d3ee, #5eead4); color: black; }
-        #app-content, #loading-screen, #result-screen { display: none; }
-        .res-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2d3748; font-size: 14px; }
+        #loading-screen, #app-content, #result-screen { display: none; }
     </style>
 </head>
 <body>
 
 <div id="login-screen" class="card">
     <h3>🔑 NHẬP KEY</h3>
-    <input type="password" id="key-input" style="width:100%; padding:12px; border-radius:10px; background:#1f2937; color:white; border:1px solid #374151; margin-bottom:10px;" placeholder="Nhập key...">
+    <input type="password" id="key-input" style="width:100%; padding:12px; border-radius:10px; border:1px solid #374151; background:#1f2937; color:white; margin-bottom:10px;" placeholder="Nhập key...">
     <button class="btn" onclick="checkKey()">UNLOCK</button>
-    <p id="error-msg" style="color:red; display:none;">Key không đúng!</p>
 </div>
 
 <div id="loading-screen" class="card" style="text-align:center;">⏳ Đang xác thực...</div>
 
 <div id="app-content" class="card">
     <h3>SENSITIVITY OB53</h3>
-    <div class="grid-2
+    <div class="grid-2">
+        <div id="ios" class="box active" onclick="selectOS('ios')">🍎 iOS</div>
+        <div id="android" class="box" onclick="selectOS('android')">🤖 Android</div>
+    </div>
+    <select id="device-select"></select>
+    <div class="grid-2">
+        <div class="box active">🔥 Free Fire</div>
+        <div class="box">💎 FF MAX</div>
+    </div>
+    <div class="grid-2">
+        <div class="box" onclick="this.classList.toggle('active')">🎯 Lỗ Đầu</div>
+        <div class="box" onclick="this.classList.toggle('active')">💨 Lạc Đạn</div>
+        <div class="box" onclick="this.classList.toggle('active')">⚡ Giật Tâm</div>
+    </div>
+    <button class="btn" onclick="showResult()">🔍 TÌM ĐỘ NHẠY</button>
+</div>
+
+<div id="result-screen" class="card">
+    <h3>KẾT QUẢ</h3>
+    <div id="res-list" style="margin: 15px 0;"></div>
+    <button class="btn" onclick="location.reload()">🔄 Đăng xuất</button>
+</div>
+
+<script>
+    const data = {
+        ios: ["iPhone 17 Pro Max", "iPhone 16", "iPhone 15", "iPhone 14"],
+        android: ["Samsung S24 Ultra", "Oppo Reno 11", "Xiaomi 14", "Vivo V30"]
+    };
+
+    function selectOS(os) {
+        document.getElementById('ios').classList.toggle('active', os === 'ios');
+        document.getElementById('android').classList.toggle('active', os === 'android');
+        document.getElementById('device-select').innerHTML = data[os].map(d => `<option>${d}</option>`).join('');
+    }
+
+    function checkKey() {
+        if(document.getElementById('key-input').value === "donhayff") {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('loading-screen').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('app-content').style.display = 'block';
+                selectOS('ios');
+            }, 1500);
+        } else { alert("Key không đúng!"); }
+    }
+
+    function showResult() {
+        const results = ["Nhìn quanh: 95", "Reddot: 88", "2x: 92", "4x: 85"];
+        document.getElementById('res-list').innerHTML = results.map(r => `<div>${r}</div>`).join('');
+        document.getElementById('app-content').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+    }
+</script>
+</body>
+</html>
