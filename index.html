@@ -3,64 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="apple-touch-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnczxfSR4HP9x7IXBbE6SJpIc9q06Aqwiq6GxtrwdNpg&s">
     <title>Sensitivity FF OB53</title>
     <style>
-        body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; margin: 0; min-height: 100vh; align-items: center; }
+        body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
         .card { background: #161b2a; border-radius: 20px; padding: 20px; width: 100%; max-width: 400px; border: 1px solid #2d3748; }
-        
-        /* Cấu trúc màn hình */
-        #login-screen { text-align: center; }
-        #loading-screen { display: none; text-align: center; font-size: 20px; }
-        #app-content { display: none; }
-        
-        /* CSS Giao diện cũ của bạn */
-        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-        .header .icon { background: #5eead4; color: black; padding: 5px 10px; border-radius: 8px; font-weight: bold; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .box { background: #1f2937; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; }
-        .box.active { border: 1px solid #5eead4; background: #1e3a3a; }
-        select { width: 100%; padding: 12px; background: #1f2937; color: white; border: 1px solid #374151; border-radius: 10px; margin-bottom: 15px; }
-        .problems { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        .btn-find { background: linear-gradient(90deg, #22d3ee, #5eead4); color: black; }
-        .btn-reset { background: #1f2937; color: #9ca3af; border: 1px solid #374151; }
-        input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #374151; background: #1f2937; color: white; box-sizing: border-box; margin-bottom: 10px; }
-        #error-msg { color: #ff4d4d; display: none; margin-bottom: 10px; }
+        .box { background: #1f2937; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; margin-bottom: 10px; }
+        .active { border: 1px solid #5eead4; background: #1e3a3a; }
+        input, select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #374151; background: #1f2937; color: white; margin-bottom: 10px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; background: linear-gradient(90deg, #22d3ee, #5eead4); }
+        #app-content, #loading-screen, #result-screen { display: none; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .res-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2d3748; }
     </style>
 </head>
 <body>
 
 <div id="login-screen" class="card">
-    <h3>🔑 NHẬP KEY APP</h3>
-    <input type="password" id="key-input" placeholder="Nhập Key...">
-    <button class="btn btn-find" onclick="checkKey()">UNLOCK SENSITIVITY</button>
-    <div id="error-msg">❌ Key không đúng!</div>
+    <h3>🔑 NHẬP KEY</h3>
+    <input type="password" id="key-input" placeholder="Nhập key...">
+    <button class="btn" onclick="checkKey()">UNLOCK</button>
+    <p id="error-msg" style="color:red; display:none;">Key không đúng!</p>
 </div>
 
-<div id="loading-screen" class="card">
-    <p>⏳ Đang xác thực dữ liệu...</p>
-</div>
+<div id="loading-screen" class="card" style="text-align:center;">⏳ Đang xác thực...</div>
 
 <div id="app-content" class="card">
-    <div class="header">
-        <div class="icon">CL</div>
-        <div><strong>SENSITIVITY FREE FIRE OB53</strong><br><small style="color: #6b7280;">Hệ điều hành · Máy · Game</small></div>
-    </div>
+    <h3>SENSITIVITY OB53</h3>
     <div class="grid-2">
-        <div class="box active">🍎 iOS</div>
-        <div class="box">🤖 Android</div>
+        <div id="ios" class="box active" onclick="setOS('ios')">🍎 iOS</div>
+        <div id="android" class="box" onclick="setOS('android')">🤖 Android</div>
     </div>
-    <select><option>iPhone 17</option><option>iPhone 16 Pro Max</option></select>
+    <select id="device-select"></select>
     <div class="grid-2">
-        <div class="box">🔥 Free Fire</div>
-        <div class="box active">💎 FF MAX</div>
+        <div class="box active">🔥 Free Fire</div>
+        <div class="box">💎 FF MAX</div>
     </div>
-    <button class="btn btn-find">🔍 TÌM ĐỘ NHẠY</button>
-    <button class="btn btn-reset" onclick="location.reload()">🔄 Đăng xuất</button>
+    <p>Tình trạng (Chọn nhiều):</p>
+    <div class="grid-2">
+        <div class="box" onclick="this.classList.toggle('active')">🎯 Lỗ Đầu</div>
+        <div class="box" onclick="this.classList.toggle('active')">💨 Lạc Đạn</div>
+        <div class="box" onclick="this.classList.toggle('active')">⚡ Giật Tâm</div>
+    </div>
+    <button class="btn" onclick="showResult()">🔍 TÌM ĐỘ NHẠY</button>
+</div>
+
+<div id="result-screen" class="card">
+    <h3>KẾT QUẢ TỐI ƯU</h3>
+    <div id="res-list"></div>
+    <button class="btn" onclick="location.reload()">🔄 Làm mới</button>
 </div>
 
 <script>
+    const devices = {
+        ios: ["iPhone 17 Pro Max", "iPhone 16", "iPhone 15 Pro", "iPhone 14"],
+        android: ["Samsung S24", "Vivo V30", "Oppo Reno 11", "Xiaomi 14"]
+    };
+
+    function setOS(os) {
+        document.querySelectorAll('.grid-2 .box').forEach(b => b.classList.remove('active'));
+        document.getElementById(os).classList.add('active');
+        const sel = document.getElementById('device-select');
+        sel.innerHTML = devices[os].map(d => `<option>${d}</option>`).join('');
+    }
+
     function checkKey() {
         if(document.getElementById('key-input').value === "donhayff") {
             document.getElementById('login-screen').style.display = 'none';
@@ -68,10 +73,17 @@
             setTimeout(() => {
                 document.getElementById('loading-screen').style.display = 'none';
                 document.getElementById('app-content').style.display = 'block';
+                setOS('ios');
             }, 1500);
-        } else {
-            document.getElementById('error-msg').style.display = 'block';
-        }
+        } else { document.getElementById('error-msg').style.display = 'block'; }
+    }
+
+    function showResult() {
+        const stats = ["Nhìn xung quanh", "Ống ngắm hồng tâm", "Ống ngắm 2x", "Ống ngắm 4x", "Súng ngắm", "Camera tự do"];
+        let html = stats.map(s => `<div class="res-item"><span>${s}</span><span>${Math.floor(Math.random() * 100) + 100}</span></div>`).join('');
+        document.getElementById('res-list').innerHTML = html;
+        document.getElementById('app-content').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
     }
 </script>
 </body>
