@@ -8,13 +8,12 @@
         body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
         .card { background: #161b2a; border-radius: 20px; padding: 20px; width: 100%; max-width: 400px; border: 1px solid #2d3748; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .box { background: #1f2937; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; transition: 0.3s; }
+        .box { background: #1f2937; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; transition: 0.3s; font-size: 13px; }
         .active { border: 1px solid #5eead4; background: #1e3a3a; color: #5eead4; }
-        .problem-box { padding: 10px; border: 1px solid #374151; background: #1f2937; border-radius: 10px; text-align: center; cursor: pointer; font-size: 13px; }
-        select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #374151; background: #1f2937; color: white; margin-bottom: 15px; }
+        select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #374151; background: #1f2937; color: white; margin-bottom: 15px; font-size: 14px; }
         .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; background: linear-gradient(90deg, #22d3ee, #5eead4); color: black; }
         #app-content, #loading-screen, #result-screen { display: none; }
-        .res-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2d3748; }
+        .res-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2d3748; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -30,73 +29,4 @@
 
 <div id="app-content" class="card">
     <h3>SENSITIVITY OB53</h3>
-    <div class="grid-2">
-        <div id="btn-ios" class="box active" onclick="selectOS('ios')">🍎 iOS</div>
-        <div id="btn-android" class="box" onclick="selectOS('android')">🤖 Android</div>
-    </div>
-    
-    <select id="device-select"></select>
-    
-    <div class="grid-2">
-        <div id="btn-ff" class="box active" onclick="selectGame('ff')">🔥 Free Fire</div>
-        <div id="btn-ffmax" class="box" onclick="selectGame('ffmax')">💎 FF MAX</div>
-    </div>
-
-    <p style="text-align:center; color:#9ca3af;">TÌNH TRẠNG ĐANG GẶP:</p>
-    <div class="grid-2">
-        <div class="problem-box" onclick="this.classList.toggle('active')">🎯 Lỗ Đầu</div>
-        <div class="problem-box" onclick="this.classList.toggle('active')">💨 Lạc Đạn</div>
-        <div class="problem-box" onclick="this.classList.toggle('active')">⚡ Giật Tâm</div>
-        <div class="problem-box" onclick="this.classList.toggle('active')">🤯 Nặng Tâm</div>
-        <div class="problem-box" onclick="this.classList.toggle('active')">💰 Rung Tay</div>
-        <div class="problem-box" onclick="this.classList.toggle('active')">🏃 Trượt Địch</div>
-    </div>
-    <button class="btn" onclick="showResult()">🔍 TÌM ĐỘ NHẠY</button>
-</div>
-
-<div id="result-screen" class="card">
-    <h3>KẾT QUẢ TỐI ƯU</h3>
-    <div id="res-list"></div>
-    <button class="btn" style="margin-top:15px;" onclick="location.reload()">🔄 Đăng xuất</button>
-</div>
-
-<script>
-    const data = {
-        ios: ["iPhone 6", "iPhone 6s", "iPhone 7/7P", "iPhone 8/8P", "iPhone X/Xs/Xs Max", "iPhone 11/11 Pro/Max", "iPhone 12/Pro/Max", "iPhone 13/Pro/Max", "iPhone 14/Pro/Max", "iPhone 15/Pro/Max", "iPhone 16/Pro/Max", "iPhone 17/Pro/Max"],
-        android: ["Samsung Galaxy S Series", "Samsung Galaxy A Series", "Oppo Reno Series", "Oppo A Series", "Vivo V Series", "Vivo Y Series", "Xiaomi Redmi", "Xiaomi POCO", "Realme Series", "Asus ROG Phone"]
-    };
-
-    function selectOS(os) {
-        document.getElementById('btn-ios').classList.toggle('active', os === 'ios');
-        document.getElementById('btn-android').classList.toggle('active', os === 'android');
-        const sel = document.getElementById('device-select');
-        sel.innerHTML = data[os].map(d => `<option>${d}</option>`).join('');
-    }
-
-    function selectGame(game) {
-        document.getElementById('btn-ff').classList.toggle('active', game === 'ff');
-        document.getElementById('btn-ffmax').classList.toggle('active', game === 'ffmax');
-    }
-
-    function checkKey() {
-        if(document.getElementById('key-input').value === "donhayff") {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('loading-screen').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('loading-screen').style.display = 'none';
-                document.getElementById('app-content').style.display = 'block';
-                selectOS('ios'); // Mặc định chọn iOS trước
-            }, 1500);
-        } else { document.getElementById('error-msg').style.display = 'block'; }
-    }
-
-    function showResult() {
-        const stats = ["Nhìn xung quanh", "Hồng tâm", "Ống ngắm 2x", "Ống ngắm 4x", "Súng ngắm", "Camera tự do"];
-        let html = stats.map(s => `<div class="res-item"><span>${s}</span><span style="color:#5eead4; font-weight:bold;">${Math.floor(Math.random() * 50) + 80}</span></div>`).join('');
-        document.getElementById('res-list').innerHTML = html;
-        document.getElementById('app-content').style.display = 'none';
-        document.getElementById('result-screen').style.display = 'block';
-    }
-</script>
-</body>
-</html>
+    <div class="grid-2
