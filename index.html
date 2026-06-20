@@ -3,58 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sensitivity FF OB53</title>
+    <title>FF Sensitivity Tool</title>
     <style>
         body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; margin: 0; }
-        .card { background: #161b2a; border-radius: 20px; padding: 20px; width: 100%; max-width: 400px; border: 1px solid #2d3748; }
-        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-        .header .icon { background: #5eead4; color: black; padding: 5px 10px; border-radius: 8px; font-weight: bold; }
+        .container { width: 100%; max-width: 400px; }
+        /* Style Key */
+        #key-screen { text-align: center; margin-top: 50px; background: #161b2a; padding: 30px; border-radius: 20px; border: 1px solid #2d3748; }
+        input { width: 80%; padding: 15px; border-radius: 10px; border: none; margin-bottom: 10px; text-align: center; }
+        /* Style Load */
+        #loading-screen { display: none; text-align: center; margin-top: 100px; }
+        /* Main App */
+        #main-app { display: none; }
+        .card { background: #161b2a; border-radius: 20px; padding: 20px; border: 1px solid #2d3748; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .box { background: #1f2937; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #374151; cursor: pointer; }
-        .box.active { border: 1px solid #5eead4; background: #1e3a3a; }
-        select { width: 100%; padding: 12px; background: #1f2937; color: white; border: 1px solid #374151; border-radius: 10px; margin-bottom: 15px; }
-        .problems { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        .btn-find { background: linear-gradient(90deg, #22d3ee, #5eead4); color: black; }
-        .btn-reset { background: #1f2937; color: #9ca3af; border: 1px solid #374151; }
+        .box { background: #1f2937; padding: 15px; border-radius: 12px; text-align: center; cursor: pointer; }
+        .btn-find { width: 100%; padding: 15px; border: none; border-radius: 12px; background: linear-gradient(90deg, #22d3ee, #5eead4); font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="header">
-        <div class="icon">CL</div>
-        <div><strong>SENSITIVITY FREE FIRE OB53</strong><br><small style="color: #6b7280;">Hệ điều hành · Máy · Game · Tình trạng</small></div>
+<div class="container">
+    <div id="key-screen">
+        <h3>🔐 NHẬP KEY</h3>
+        <input type="password" id="key-input" placeholder="Nhập khóa...">
+        <button class="btn-find" onclick="checkKey()">MỞ KHÓA</button>
     </div>
 
-    <div class="grid-2">
-        <div class="box active">🍎 iOS</div>
-        <div class="box">🤖 Android</div>
+    <div id="loading-screen">
+        <p>Đang xác thực Key...</p>
+        <div style="font-size: 40px;">⏳</div>
     </div>
 
-    <select>
-        <option>iPhone 17</option>
-        <option>iPhone 16 Pro Max</option>
-        <option>iPhone 15 Pro</option>
-    </select>
-
-    <div class="grid-2">
-        <div class="box">🔥 Free Fire</div>
-        <div class="box active">💎 FF MAX</div>
+    <div id="main-app" class="card">
+        <h3>SENSITIVITY FREE FIRE OB53</h3>
+        <div class="grid-2">
+            <div class="box">🍎 iOS</div>
+            <div class="box">🤖 Android</div>
+        </div>
+        <button class="btn-find" onclick="alert('Đã tính toán độ nhạy tối ưu cho bạn!')">TÌM ĐỘ NHẠY</button>
     </div>
-
-    <div class="problems">
-        <div class="box">🎯 Lỗ Đầu</div>
-        <div class="box">💨 Lạc Đạn</div>
-        <div class="box">⚡ Giật Tâm</div>
-        <div class="box">🤯 Nặng Tâm</div>
-        <div class="box">💰 Rung Tay</div>
-        <div class="box">🏃 Trượt Địch</div>
-    </div>
-
-    <button class="btn btn-find">🔍 TÌM ĐỘ NHẠY</button>
-    <button class="btn btn-reset">🔄 Reset về mặc định</button>
 </div>
 
+<script>
+    function checkKey() {
+        const input = document.getElementById('key-input').value;
+        if (input === "donhayff") {
+            document.getElementById('key-screen').style.display = 'none';
+            document.getElementById('loading-screen').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+            }, 1500);
+        } else {
+            alert("Key không đúng!");
+        }
+    }
+</script>
 </body>
 </html>
