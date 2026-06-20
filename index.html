@@ -3,59 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FF Sensitivity Tool</title>
+    <title>Sensitivity Free Fire</title>
     <style>
-        body { background: #0a0e17; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; margin: 0; }
-        .container { width: 100%; max-width: 400px; }
-        /* Style Key */
-        #key-screen { text-align: center; margin-top: 50px; background: #161b2a; padding: 30px; border-radius: 20px; border: 1px solid #2d3748; }
-        input { width: 80%; padding: 15px; border-radius: 10px; border: none; margin-bottom: 10px; text-align: center; }
-        /* Style Load */
-        #loading-screen { display: none; text-align: center; margin-top: 100px; }
-        /* Main App */
-        #main-app { display: none; }
-        .card { background: #161b2a; border-radius: 20px; padding: 20px; border: 1px solid #2d3748; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .box { background: #1f2937; padding: 15px; border-radius: 12px; text-align: center; cursor: pointer; }
-        .btn-find { width: 100%; padding: 15px; border: none; border-radius: 12px; background: linear-gradient(90deg, #22d3ee, #5eead4); font-weight: bold; cursor: pointer; }
+        body { background: #0a0e17; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #161b2a; padding: 40px 30px; border-radius: 25px; width: 90%; max-width: 350px; text-align: center; border: 1px solid #2d3748; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h3 { margin-top: 0; color: #5eead4; }
+        input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #374151; background: #1f2937; color: white; box-sizing: border-box; margin: 20px 0; }
+        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(90deg, #22d3ee, #5eead4); font-weight: bold; cursor: pointer; color: black; }
+        
+        #error-msg { color: #ff4d4d; margin-top: 10px; display: none; font-size: 14px; }
+        #loading { display: none; margin-top: 20px; color: #5eead4; }
+        #app-content { display: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="key-screen">
-        <h3>🔐 NHẬP KEY</h3>
-        <input type="password" id="key-input" placeholder="Nhập khóa...">
-        <button class="btn-find" onclick="checkKey()">MỞ KHÓA</button>
-    </div>
+<div id="login-container" class="card">
+    <h3>NHẬP KEY APP</h3>
+    <p style="color: #6b7280; font-size: 14px;">Sensitivity Free Fire</p>
+    <input type="text" id="key-input" placeholder="Nhập KEY của bạn...">
+    <button class="btn" onclick="checkKey()">Unlock Sensitivity 🔓</button>
+    <div id="error-msg">❌ KEY không đúng, vui lòng thử lại!</div>
+    <div id="loading">⏳ Đang xác thực...</div>
+</div>
 
-    <div id="loading-screen">
-        <p>Đang xác thực Key...</p>
-        <div style="font-size: 40px;">⏳</div>
-    </div>
-
-    <div id="main-app" class="card">
-        <h3>SENSITIVITY FREE FIRE OB53</h3>
-        <div class="grid-2">
-            <div class="box">🍎 iOS</div>
-            <div class="box">🤖 Android</div>
-        </div>
-        <button class="btn-find" onclick="alert('Đã tính toán độ nhạy tối ưu cho bạn!')">TÌM ĐỘ NHẠY</button>
-    </div>
+<div id="app-content" class="card">
+    <h3>SENSITIVITY FREE FIRE</h3>
+    <p>Chào mừng bạn đã mở khóa thành công!</p>
+    <button class="btn" onclick="location.reload()">Đăng xuất</button>
 </div>
 
 <script>
     function checkKey() {
-        const input = document.getElementById('key-input').value;
-        if (input === "donhayff") {
-            document.getElementById('key-screen').style.display = 'none';
-            document.getElementById('loading-screen').style.display = 'block';
+        const key = document.getElementById('key-input').value;
+        const errorMsg = document.getElementById('error-msg');
+        
+        if(key === "donhayff") {
+            errorMsg.style.display = 'none';
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
             setTimeout(() => {
-                document.getElementById('loading-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('app-content').style.display = 'block';
             }, 1500);
         } else {
-            alert("Key không đúng!");
+            // Hiển thị thông báo đỏ ngay dưới nút
+            errorMsg.style.display = 'block';
         }
     }
 </script>
