@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Painel AIM HEAD - SilvaX</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            background: #0a0a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Orbitron', -apple-system, system-ui, sans-serif;
+            overflow: hidden;
+            touch-action: none;
+        }
+        .galaxy-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 20% 50%, #0d0d2b, #05050f);
+            z-index: 0;
+        }
+        .galaxy-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle at 60% 30%, rgba(120,80,255,0.15), transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(0,200,255,0.10), transparent 40%),
+                        radial-gradient(circle at 20% 80%, rgba(200,50,200,0.08), transparent 45%);
+            animation: rotBG 40s linear infinite;
+        }
+        @keyframes rotBG { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--d) ease-in-out infinite alternate;
+        }
+        @keyframes twinkle { 0%{opacity:0.2;transform:scale(0.8)} 100%{opacity:1;transform:scale(1.2)} }
+        
+        .panel {
+            position: relative;
+            z-index: 10;
+            width: 94%;
+            max-width: 420px;
+            background: rgba(10,10,35,0.78);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(120,100,255,0.35);
+            border-radius: 32px;
+            padding: 24px 18px 28px;
+            box-shadow: 0 20px 60px rgba(80,60,255,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), opacity 0.4s;
+        }
+        .panel.hidden { transform: scale(0.8); opacity: 0; pointer-events: none; }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            border-bottom: 1px solid rgba(120,100,255,0.15);
+            padding-bottom: 14px;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b388ff, #82b1ff, #18ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+        .title small { font-size: 11px; opacity:0.6; display:block; -webkit-text-fill-color:rgba(255,255,255,0.4); font-weight:300; letter-spacing:4px; margin-top:2px; }
+        .badge { background:rgba(100,80,255,0.2); border:1px solid rgba(100,80,255,0.3); padding:4px 12px; border-radius:30px; font-size:10px; color:#b388ff; font-weight:600; }
+        
+        .login-area {
+            background:rgba(0,0,0,0.3);
+            border-radius:16px;
+            padding:14px 16px;
+            margin-bottom:16px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+        .login-area input {
+            flex:1;
+            background:rgba(255,255,255,0.04);
+            border:1px solid rgba(255,255,255,0.06);
+            padding:10px 14px;
+            border-radius:12px;
+            color:#fff;
+            font-size:14px;
+            font-family:inherit;
+            outline:none;
+            min-width:100px;
+        }
+        .login-area input:focus { border-color:#6c5ce7; box-shadow:0 0 20px rgba(100,80,255,0.1); }
+        .login-area input::placeholder { color:rgba(255,255,255,0.2); }
+        .login-area .btn-key {
+            background:linear-gradient(135deg,#6c5ce7,#a29bfe);
+            border:none;
+            padding:10px 20px;
+            border-radius:12px;
+            color:#fff;
+            font-weight:700;
+            font-size:13px;
+            cursor:pointer;
+            font-family:inherit;
+            transition:transform 0.15s;
+        }
+        .login-area .btn-key:active { transform:scale(0.94); }
+        .login-area .key-status { font-size:13px; color:#ff6b6b; min-width:30px; text-align:center; }
+        .login-area .key-status.ok { color:#4ecdc4; }
+        
+        .btn-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+        .btn-grid .full { grid-column:1/-1; }
+        .btn-f {
+            padding:14px 8px;
+            border:1px solid rgba(255,255,255,0.06);
+            border-radius:16px;
+            background:rgba(255,255,255,0.02);
+            backdrop-filter:blur(4px);
+            -webkit-backdrop-filter:blur(4px);
+            color:#c8d0ff;
+            font-size:13px;
+            font-weight:600;
+            letter-spacing:0.5px;
+            text-align:center;
+            transition:all 0.2s;
+            cursor:pointer;
+            touch-action:manipulation;
+            box-shadow:0 2px 12px rgba(0,0,0,0.2);
+            position:relative;
+            overflow:hidden;
+            font-family:inherit;
+            opacity:0.4;
+        }
+        .btn-f::after {
+            content:'';
+            position:absolute;
+            top:-50%;left:-50%;
+            width:200%;height:200%;
+            background:conic-gradient(from 0deg,transparent,rgba(100,80,255,0.05),transparent,rgba(0,200,255,0.05),transparent);
+            animation:rotGlow 8s linear infinite;
+            pointer-events:none;
+        }
+        @keyframes rotGlow { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        .btn-f:active { transform:scale(0.94); background:rgba(100,80,255,0.15); border-color:rgba(100,80,255,0.4); }
+        .btn-f .icon { font-size:18px; display:block; margin-bottom:4px; }
+        .btn-f .sub { font-size:11px; opacity:0.6; font-weight:300; }
+        .btn-f.active { background:rgba(100,80,255,0.2); border-color:#6c5ce7; box-shadow:0 0 30px rgba(100,80,255,0.15); opacity:1; }
+        
+        .btn-aim { border-left:3px solid #ff6b6b; }
+        .btn-esp { border-left:3px solid #4ecdc4; }
+        .btn-extra { border-left:3px solid #ffd93d; }
+        .btn-toggle { border-left:3px solid #a29bfe; }
+        
+        .footer {
+            display:flex;
+            justify-content:space-between;
+            margin-top:10px;
+            padding-top:12px;
+            border-top:1px solid rgba(255,255,255,0.03);
+            font-size:10px;
+            color:rgba(255,255,255,0.15);
+        }
+        .footer .cr { color:rgba(180,160,255,0.4); }
+        
+        .toast {
+            position:fixed;
+            bottom:30px;
+            left:50%;
+            transform:translateX(-50%) translateY(100px);
+            background:rgba(0,0,0,0.85);
+            backdrop-filter:blur(12px);
+            padding:12px 28px;
+            border-radius:40px;
+            color:#fff;
+            font-size:13px;
+            font-weight:500;
+            border:1px solid rgba(100,80,255,0.2);
+            z-index:999;
+            opacity:0;
+            transition:all 0.4s cubic-bezier(0.23,1,0.32,1);
+            pointer-events:none;
+            white-space:nowrap;
+            font-family:inherit;
+        }
+        .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+        
+        @media (max-width:420px){ 
+            .panel{padding:18px 12px 22px;} 
+            .title{font-size:18px;} 
+            .btn-f{padding:12px 6px;font-size:12px;} 
+            .login-area{flex-wrap:wrap;} 
+            .login-area input{flex:1 1 100%;} 
+        }
+    </style>
+</head>
+<body>
+<div class="galaxy-bg"></div>
+<div class="stars" id="stars"></div>
+<div class="toast" id="toast"></div>
+<div class="panel" id="panel">
+    <div class="header">
+        <div class="title">PAINEL AIM HEAD<small>✦ SILVAX ✦</small></div>
+        <div class="badge">v4.0</div>
+    </div>
+    <div class="login-area">
+        <input type="text" id="keyInput" placeholder="Nhap Key..." maxlength="10">
+        <button class="btn-key" id="btnLogin">MO</button>
+        <span class="key-status" id="keyStatus">🔒</span>
+    </div>
+    <div class="btn-grid">
+        <button class="btn-f btn-aim" data-cmd="aim_body"><span class="icon">🎯</span>AIM BODY<span class="sub">nguc</span></button>
+        <button class="btn-f btn-aim" data-cmd="aim_head"><span class="icon">👤</span>AIM HEAD<span class="sub">dau</span></button>
+        <button class="btn-f btn-aim" data-cmd="aim_neck"><span class="icon">🔴</span>AIM NECK<span class="sub">co</span></button>
+        <button class="btn-f btn-aim" data-cmd="aim_drag"><span class="icon">🌀</span>AIM DRAG<span class="sub">keo</span></button>
+        <button class="btn-f btn-esp" data-cmd="esp_line"><span class="icon">📏</span>ESP LINE<span class="sub">duong</span></button>
+        <button class="btn-f btn-esp" data-cmd="esp_box"><span class="icon">📦</span>ESP BOX<span class="sub">hop</span></button>
+        <button class="btn-f btn-esp" data-cmd="esp_skeleton"><span class="icon">🦴</span>ESP SKELETON<span class="sub">xuong</span></button>
+        <button class="btn-f btn-esp" data-cmd="esp_name"><span class="icon">🏷️</span>ESP NAME<span class="sub">ten</span></button>
+        <button class="btn-f btn-extra full" data-cmd="aim_wall"><span class="icon">🧱</span>AIM WALL (xuyen tuong)<span class="sub">ban xuyen</span></button>
+        <button class="btn-f btn-toggle full" data-cmd="norecoil"><span class="icon">🔫</span>NORECOIL<span class="sub">khong giay</span></button>
+    </div>
+    <div class="footer"><span class="cr">✦ Criado por SilvaX ✦</span><span>🔑 Key: 01</span></div>
+</div>
+
+<script>
+    (function(){var c=document.getElementById('stars');for(var i=0;i<120;i++){var s=document.createElement('div');s.className='star';var sz=Math.random()*2.5+0.5;s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(Math.random()*3+2)+'s');s.style.animationDelay=(Math.random()*5)+'s';c.appendChild(s);}})();
+    
+    var KEY='01', logged=false;
+    var toast=document.getElementById('toast');
+    var keyInput=document.getElementById('keyInput');
+    var keyStatus=document.getElementById('keyStatus');
+    var panel=document.getElementById('panel');
+    var panelVisible=true;
+    
+    function showToast(msg,ok){
+        toast.textContent=msg;
+        toast.style.borderColor=ok?'rgba(100,255,150,0.3)':'rgba(255,100,100,0.3)';
+        toast.classList.add('show');
+        clearTimeout(toast._h);
+        toast._h=setTimeout(function(){toast.classList.remove('show');},2000);
+    }
+    
+    document.getElementById('btnLogin').onclick=function(){
+        var k=keyInput.value.trim();
+        if(k===KEY){
+            logged=true;
+            keyStatus.textContent='✅';
+            keyStatus.className='key-status ok';
+            showToast('✅ Dang nhap thanh cong!',true);
+            document.querySelectorAll('.btn-f').forEach(function(b){b.style.opacity='1';});
+        }else{
+            logged=false;
+            keyStatus.textContent='❌';
+            keyStatus.className='key-status';
+            showToast('❌ Key sai! Nhap 01',false);
+        }
+    };
+    
+    keyInput.onkeydown=function(e){if(e.key==='Enter')document.getElementById('btnLogin').click();};
+    
+    document.querySelectorAll('.btn-f').forEach(function(b){b.style.opacity='0.4';});
+    
+    document.querySelectorAll('.btn-f').forEach(function(btn){
+        btn.onclick=function(){
+            if(!logged){showToast('⚠️ Vui long dang nhap!',false);return;}
+            var cmd=this.dataset.cmd;
+            if(cmd==='norecoil'){
+                this.classList.toggle('active');
+                var st=this.classList.contains('active')?'ON':'OFF';
+                showToast('🔫 NORECOIL '+st,true);
+                sendCmd('norecoil',st);
+                return;
+            }
+            var label=this.innerText.trim().split('\n')[0]||cmd;
+            showToast('✅ '+label,true);
+            sendCmd(cmd,'on');
+            this.style.background='rgba(100,80,255,0.25)';
+            setTimeout(function(){btn.style.background='';},300);
+        };
+    });
+    
+    function sendCmd(cmd,val){
+        var p={cmd:cmd,value:val,time:Date.now(),panel:'AIM_HEAD',creator:'SilvaX'};
+        var json=JSON.stringify(p);
+        
+        // Cố gắng copy vào bộ nhớ tạm
+        if(typeof Clipboard!=='undefined'&&Clipboard.setText){try{Clipboard.setText(json);}catch(e){}}
+        
+        // Cố gắng lưu thông qua FileManager (dành cho iOS Shortcuts / Scriptable)
+        if(typeof FileManager!=='undefined'){try{var fm=FileManager.local();var path=fm.joinPath(fm.documentsDirectory(),'game_cmd.json');fm.writeString(path,json);}catch(e){}}
+        
+        // Lưu vào LocalStorage của trình duyệt
+        try{localStorage.setItem('ff_cmd',json);}catch(e){}
+        
+        console.log('[SEND] '+cmd+'='+val);
+    }
+    
+    // Tính năng chạm 4 ngón tay ẩn / hiện Panel
+    var tc=0,tt=null;
+    document.addEventListener('touchstart',function(e){
+        if(e.touches.length===4){
+            tc++;
+            clearTimeout(tt);
+            if(tc>=2){
+                panelVisible=!panelVisible;
+                panel.classList.toggle('hidden');
+                showToast(panelVisible?'🔓 Mo panel':'🔒 Dong panel',panelVisible);
+                tc=0;
+            }
+            tt=setTimeout(function(){tc=0;},800);
+        }
+    });
+    
+    console.log('🔥 Painel AIM HEAD - SilvaX');
+    console.log('🔑 Key: 01');
+    console.log('📌 Mo/dong bang 4 ngon tay (cham 2 lan)');
+</script>
+</body>
+</html>
