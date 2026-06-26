@@ -1,0 +1,76 @@
+-- Evade Auto Sit Spam Script (Roblox)
+-- Dành riêng cho game Evade, spam ngồi liên tục khi di chuyển
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Cấu hình
+local AUTO_SIT = true
+local SPAM_INTERVAL = 0.008 -- 8ms, tối ưu cho Evade
+
+-- Hàm spam ngồi
+local function spamSit()
+    if not humanoid then return end
+    
+    -- Ép ngồi bằng nhiều phương thức để đảm bảo
+    humanoid.Sit = true
+    humanoid:ChangeState(Enum.HumanoidStateType.Seated)
+    
+    -- Vô hiệu hóa các state khác để tránh thoát ngồi
+    for _, state in ipairs({Enum.HumanoidStateType.Running, Enum.HumanoidStateType.Jumping, Enum.HumanoidStateType.Climbing}) do
+        humanoid:SetStateEnabled(state, false)
+    end
+    humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
+end
+
+-- Vòng lặp spam
+task.spawn(function()
+    while AUTO_SIT do
+        spamSit()
+        task.wait(SPAM_INTERVAL)
+    end
+end)
+
+-- Reset khi respawn trong Evade
+player.CharacterAdded:Connect(function(newChar)
+    character = newChar
+    humanoid = character:WaitForChild("Humanoid")
+    -- Đợi 0.1s để game load rồi tiếp tục spam
+    task.wait(0.1)
+end)
+
+-- UI cho Evade (màu xanh neon)
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+screenGui.ResetOnSpawn = false
+
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 160, 0, 45)
+button.Position = UDim2.new(0.5, -80, 0, 10)
+button.BackgroundColor3 = Color3.fromRGB(0, 255, 200)
+button.TextColor3 = Color3.fromRGB(0, 0, 0)
+button.Text = "SIT SPAM: ON"
+button.Font = Enum.Font.GothamBold
+button.TextSize = 20
+button.Parent = screenGui
+
+-- Hiệu ứng glow
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0, 8)
+uiCorner.Parent = button
+
+local uiStroke = Instance.new("UIStroke")
+uiStroke.Color = Color3.fromRGB(0, 255, 255)
+uiStroke.Thickness = 2
+uiStroke.Parent = button
+
+-- Bật/tắt
+button.MouseButton1Click:Connect(function()
+    AUTO_SIT = not AUTO_SIT
+    button.Text = AUTO_SIT and "SIT SPAM: ON" or "SIT SPAM: OFF"
+    button.BackgroundColor3 = AUTO_SIT and Color3.fromRGB(0, 255, 200) or Color3.fromRGB(60, 60, 60)
+    button.TextColor3 = AUTO_SIT and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(255, 255, 255)
+end)
+
+print("Evade Sit Spam loaded - Tu dong ngoi khi di chuyen trong Evade")
